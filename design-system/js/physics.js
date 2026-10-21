@@ -31,14 +31,19 @@ export const PHYSICS = {
   baseRowGap: 36,           // px between rows in Figma
 };
 
-/** Board geometry for a playfield of width W and height H (CSS px). */
-export function geometry(W, H) {
+/**
+ * Board geometry for a playfield of width W and height H (CSS px).
+ * opts.lastGapBase: distance from the last peg row (centre) to the bin top, in Figma px at 390 px.
+ * Default 30 (peg radius + one ball + 6). The prototype passes a smaller value to sit the pyramid lower.
+ */
+export function geometry(W, H, opts = {}) {
   const pad = 6, binH = 40;
   const s = (W - 2 * pad) / 9;
   const cx = W / 2;
   const binTop = H - pad - binH;
   // Row 8 sits just above the bins: peg radius + one ball + 6 px (30 px at 390 px). Rows 36 px apart, less on short boards.
-  const lastGap = (PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6) * s / PHYSICS.baseSpacing;
+  const lastGapBase = Number.isFinite(opts.lastGapBase) ? opts.lastGapBase : PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6;
+  const lastGap = lastGapBase * s / PHYSICS.baseSpacing;
   const row7 = binTop - lastGap;
   const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - 34) / 7);
   const row0 = row7 - 7 * rowGap;

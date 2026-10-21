@@ -1084,12 +1084,13 @@
     baseRowGap: 36
     // px between rows in Figma
   };
-  function geometry(W, H) {
+  function geometry(W, H, opts = {}) {
     const pad = 6, binH = 40;
     const s = (W - 2 * pad) / 9;
     const cx = W / 2;
     const binTop = H - pad - binH;
-    const lastGap = (PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6) * s / PHYSICS.baseSpacing;
+    const lastGapBase = Number.isFinite(opts.lastGapBase) ? opts.lastGapBase : PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6;
+    const lastGap = lastGapBase * s / PHYSICS.baseSpacing;
     const row7 = binTop - lastGap;
     const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - 34) / 7);
     const row0 = row7 - 7 * rowGap;
@@ -1205,7 +1206,7 @@
       this.dpr = Math.min(window.devicePixelRatio || 1, 2);
       this.canvas.width = Math.round(r.width * this.dpr);
       this.canvas.height = Math.round(r.height * this.dpr);
-      this.geo = geometry(r.width, r.height);
+      this.geo = geometry(r.width, r.height, { lastGapBase: PHYSICS.pegRadius + 2 / 3 * 2 * PHYSICS.ballRadius });
       this.pegLayer = null;
       const g = this.geo, left = g.pad + 2, width = 9 * g.s - 4;
       Object.assign(this.row.style, { left: left + "px", width: width + "px", bottom: g.pad + "px" });

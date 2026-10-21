@@ -136,12 +136,13 @@
     baseRowGap: 36
     // px between rows in Figma
   };
-  function geometry(W, H) {
+  function geometry(W, H, opts = {}) {
     const pad = 6, binH = 40;
     const s = (W - 2 * pad) / 9;
     const cx = W / 2;
     const binTop = H - pad - binH;
-    const lastGap = (PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6) * s / PHYSICS.baseSpacing;
+    const lastGapBase = Number.isFinite(opts.lastGapBase) ? opts.lastGapBase : PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6;
+    const lastGap = lastGapBase * s / PHYSICS.baseSpacing;
     const row7 = binTop - lastGap;
     const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - 34) / 7);
     const row0 = row7 - 7 * rowGap;
