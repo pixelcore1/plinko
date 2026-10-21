@@ -511,7 +511,6 @@
     let ambientBus = null;
     let noiseBuffer = null;
     let muted = false;
-    let unlockPromise = null;
     let warned = false;
     let onTrigger = null;
     const buffers = /* @__PURE__ */ new Map();
@@ -746,47 +745,63 @@
       noiseBuffer = makeNoise();
       return true;
     }
-    function unlock() {
-      if (unlockPromise) {
-        try {
-          if (ctx && ctx.state === "suspended") ctx.resume();
-        } catch (e) {
+    const AUDIO_FILES = [.../* @__PURE__ */ new Set([...SOUND_MAP.filter((s) => s.file).map((s) => s.file), "sfx-bin-chime.mp3"])];
+    let loadPromise = null;
+    function kick() {
+      try {
+        if (typeof navigator !== "undefined" && navigator.audioSession && navigator.audioSession.type !== "playback") {
+          navigator.audioSession.type = "playback";
         }
-        return unlockPromise;
+      } catch (e) {
       }
-      unlockPromise = (async () => {
-        try {
-          if (!build()) {
-            warnOnce("Web Audio is not available.");
-            return;
-          }
-          try {
-            await ctx.resume();
-          } catch (e) {
-          }
-          try {
-            const s = ctx.createBufferSource();
-            s.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
-            s.connect(ctx.destination);
-            s.start();
-          } catch (e) {
-          }
-          const files = [...new Set(SOUND_MAP.filter((s) => s.file).map((s) => s.file))];
-          files.push("sfx-bin-chime.mp3");
-          await Promise.all([...new Set(files)].map(loadFile));
-          if (wantAmbient) startAmbient();
-        } catch (e) {
-          warnOnce("Unlock failed (" + (e && e.message ? e.message : e) + ").");
+      if (!ctx || ctx.state === "running" || ctx.state === "closed") return;
+      try {
+        ctx.resume();
+      } catch (e) {
+      }
+      try {
+        const s = ctx.createBufferSource();
+        s.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+        s.connect(ctx.destination);
+        s.start();
+      } catch (e) {
+      }
+    }
+    function unlock() {
+      try {
+        if (!ctx && !build()) {
+          warnOnce("Web Audio is not available.");
+          return Promise.resolve();
         }
-      })();
-      return unlockPromise;
+        kick();
+        if (!loadPromise) {
+          loadPromise = Promise.all(AUDIO_FILES.map(loadFile)).then(() => {
+            if (wantAmbient) startAmbient();
+          }).catch((e) => warnOnce("Unlock failed (" + (e && e.message ? e.message : e) + ")."));
+        }
+        const resumed = ctx.state === "running" ? Promise.resolve() : Promise.race([ctx.resume().catch(() => {
+        }), new Promise((r) => setTimeout(r, 500))]);
+        return Promise.all([loadPromise, resumed]).then(() => {
+          if (wantAmbient) startAmbient();
+        });
+      } catch (e) {
+        warnOnce("Unlock failed (" + (e && e.message ? e.message : e) + ").");
+        return Promise.resolve();
+      }
+    }
+    if (typeof document !== "undefined") {
+      const onGesture = () => {
+        if (!ctx || ctx.state !== "running") unlock();
+      };
+      ["pointerdown", "touchend", "click", "keydown"].forEach((t) => document.addEventListener(t, onGesture, { capture: true, passive: true }));
     }
     if (typeof document !== "undefined") {
       document.addEventListener("visibilitychange", () => {
         if (!ready()) return;
         try {
           if (document.hidden) ctx.suspend();
-          else ctx.resume();
+          else ctx.resume().catch(() => {
+          });
         } catch (e) {
         }
       });
@@ -842,6 +857,7 @@
       try {
         const entry = BY_ID.get(id);
         if (!entry || !ready() || muted) return;
+        if (ctx.state !== "running" && id !== "ambient") return;
         if (id === "ambient") {
           startAmbient();
           return;

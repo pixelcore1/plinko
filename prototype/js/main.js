@@ -539,10 +539,14 @@ if (state.reduced) document.documentElement.dataset.motion = 'reduced';
 // Test hook for automated checks (Playwright): read-only view of the state
 window.__plinko = { state, open: openGame, drop: startDrop };
 // The game opens by itself over the lobby. Audio starts on the first tap. To open it again after closing: Demo > Open Plinko.
-const firstGesture = () => sound.unlock().then(() => {
-  if (state.openSoundPending && !$('#game').hidden) play('popup-open');   // the opening sound the browser did not allow on auto-open
-  state.openSoundPending = false;
-});
-document.addEventListener('pointerdown', firstGesture, { capture: true });
-document.addEventListener('keydown', firstGesture, { capture: true });
+// iOS starts audio only on touchend or click, so all gesture types are listened to.
+const firstGesture = () => {
+  if (!state.openSoundPending) return;
+  sound.unlock().then(() => {
+    if (!state.openSoundPending || !sound.isRunning()) return;   // wait for a gesture the browser accepts
+    state.openSoundPending = false;
+    if (!$('#game').hidden) play('popup-open');   // the opening sound the browser did not allow on auto-open
+  });
+};
+['pointerdown', 'touchend', 'click', 'keydown'].forEach((t) => document.addEventListener(t, firstGesture, { capture: true, passive: true }));
 if (!params.has('closed')) openGame(true);

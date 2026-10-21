@@ -97,7 +97,6 @@ export function createSound({ base = '../design-system/assets/sfx/' } = {}) {
   let noiseBuffer = null;
 
   let muted = false;
-  let unlockPromise = null;
   let warned = false;
   let onTrigger = null;
 
@@ -359,32 +358,57 @@ export function createSound({ base = '../design-system/assets/sfx/' } = {}) {
     return true;
   }
 
-  function unlock() {
-    if (unlockPromise) {
-      // Already started. Make sure a suspended context is resumed on a later gesture too.
-      try { if (ctx && ctx.state === 'suspended') ctx.resume(); } catch (e) { /* ignore */ }
-      return unlockPromise;
-    }
-    unlockPromise = (async () => {
-      try {
-        if (!build()) { warnOnce('Web Audio is not available.'); return; }
-        try { await ctx.resume(); } catch (e) { /* ignore */ }
-        // Play one silent sample inside the gesture so iOS Safari starts the output.
-        try {
-          const s = ctx.createBufferSource();
-          s.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
-          s.connect(ctx.destination);
-          s.start();
-        } catch (e) { /* ignore */ }
-        const files = [...new Set(SOUND_MAP.filter((s) => s.file).map((s) => s.file))];
-        files.push('sfx-bin-chime.mp3');
-        await Promise.all([...new Set(files)].map(loadFile));
-        if (wantAmbient) startAmbient();
-      } catch (e) {
-        warnOnce('Unlock failed (' + (e && e.message ? e.message : e) + ').');
+  const AUDIO_FILES = [...new Set([...SOUND_MAP.filter((s) => s.file).map((s) => s.file), 'sfx-bin-chime.mp3'])];
+  let loadPromise = null;
+
+  /**
+   * Runs inside a user gesture. iOS (Safari and Chrome, both WebKit) only starts audio on
+   * touchend, click or keydown, not on pointerdown or touchstart, so this is called on every gesture
+   * until the context runs. It also asks for the "playback" audio session, so the ring/silent
+   * switch does not mute the game (Safari 17+).
+   */
+  function kick() {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.audioSession && navigator.audioSession.type !== 'playback') {
+        navigator.audioSession.type = 'playback';
       }
-    })();
-    return unlockPromise;
+    } catch (e) { /* ignore */ }
+    if (!ctx || ctx.state === 'running' || ctx.state === 'closed') return;
+    try { ctx.resume(); } catch (e) { /* ignore */ }
+    // Play one silent sample inside the gesture so iOS starts the output.
+    try {
+      const s = ctx.createBufferSource();
+      s.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+      s.connect(ctx.destination);
+      s.start();
+    } catch (e) { /* ignore */ }
+  }
+
+  /** Creates the context (once), tries to start it and loads the files. Safe to call many times. */
+  function unlock() {
+    try {
+      if (!ctx && !build()) { warnOnce('Web Audio is not available.'); return Promise.resolve(); }
+      kick();
+      if (!loadPromise) {
+        loadPromise = Promise.all(AUDIO_FILES.map(loadFile))
+          .then(() => { if (wantAmbient) startAmbient(); })
+          .catch((e) => warnOnce('Unlock failed (' + (e && e.message ? e.message : e) + ').'));
+      }
+      // Outside a gesture iOS may never settle resume(), so do not wait for it longer than 500 ms.
+      const resumed = ctx.state === 'running' ? Promise.resolve()
+        : Promise.race([ctx.resume().catch(() => {}), new Promise((r) => setTimeout(r, 500))]);
+      return Promise.all([loadPromise, resumed]).then(() => { if (wantAmbient) startAmbient(); });
+    } catch (e) {
+      warnOnce('Unlock failed (' + (e && e.message ? e.message : e) + ').');
+      return Promise.resolve();
+    }
+  }
+
+  // Every gesture type that a browser may count as user activation. iOS needs touchend or click.
+  // The listeners stay on: iOS can pause audio again after a call or a trip to the background.
+  if (typeof document !== 'undefined') {
+    const onGesture = () => { if (!ctx || ctx.state !== 'running') unlock(); };
+    ['pointerdown', 'touchend', 'click', 'keydown'].forEach((t) => document.addEventListener(t, onGesture, { capture: true, passive: true }));
   }
 
   // Pause the audio clock when the tab is hidden, resume when it is visible again.
@@ -393,7 +417,7 @@ export function createSound({ base = '../design-system/assets/sfx/' } = {}) {
       if (!ready()) return;
       try {
         if (document.hidden) ctx.suspend();
-        else ctx.resume();
+        else ctx.resume().catch(() => {});
       } catch (e) { /* ignore */ }
     });
   }
@@ -453,6 +477,8 @@ export function createSound({ base = '../design-system/assets/sfx/' } = {}) {
     try {
       const entry = BY_ID.get(id);
       if (!entry || !ready() || muted) return;
+      // A paused context would queue sounds and play them all at once on resume, so skip them.
+      if (ctx.state !== 'running' && id !== 'ambient') return;
       if (id === 'ambient') { startAmbient(); return; }
       const pitch = (Number.isFinite(opts.rate) ? opts.rate : 1);
 
