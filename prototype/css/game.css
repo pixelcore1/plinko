@@ -138,3 +138,9 @@ body { background: var(--background-default); }
 .demo__panel p { color: var(--on-surface-muted); line-height: 1.4; }
 .debug { position: fixed; z-index: 61; left: 8px; top: 140px; max-width: 220px; max-height: 50vh; overflow: hidden; padding: 6px 8px; border-radius: var(--radius-sm); background: var(--black-alpha-80); font: 11px/1.4 ui-monospace, monospace; color: var(--green-300); pointer-events: none; }
 .debug[hidden] { display: none; }
+
+/* Short phones: the popup fills the screen edge to edge, so the board gets the extra height */
+@media (max-width: 480px) and (max-height: 860px) {
+  .game { padding: 0; }
+  .popup { max-width: none; border-radius: 0; }
+}

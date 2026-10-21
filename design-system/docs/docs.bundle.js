@@ -144,7 +144,9 @@
     const lastGapBase = Number.isFinite(opts.lastGapBase) ? opts.lastGapBase : PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6;
     const lastGap = lastGapBase * s / PHYSICS.baseSpacing;
     const row7 = binTop - lastGap;
-    const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - 34) / 7);
+    const ballRest = 12 + PHYSICS.ballRadius * s / PHYSICS.baseSpacing - 6;
+    const topReserve = Number.isFinite(opts.topClearBase) ? ballRest + (PHYSICS.ballRadius + PHYSICS.pegRadius + opts.topClearBase) * s / PHYSICS.baseSpacing : 34;
+    const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - topReserve) / 7);
     const row0 = row7 - 7 * rowGap;
     const rows = [];
     for (let r = 0; r < ROWS; r++) {

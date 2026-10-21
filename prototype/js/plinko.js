@@ -1092,7 +1092,9 @@
     const lastGapBase = Number.isFinite(opts.lastGapBase) ? opts.lastGapBase : PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6;
     const lastGap = lastGapBase * s / PHYSICS.baseSpacing;
     const row7 = binTop - lastGap;
-    const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - 34) / 7);
+    const ballRest = 12 + PHYSICS.ballRadius * s / PHYSICS.baseSpacing - 6;
+    const topReserve = Number.isFinite(opts.topClearBase) ? ballRest + (PHYSICS.ballRadius + PHYSICS.pegRadius + opts.topClearBase) * s / PHYSICS.baseSpacing : 34;
+    const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - topReserve) / 7);
     const row0 = row7 - 7 * rowGap;
     const rows = [];
     for (let r = 0; r < ROWS; r++) {
@@ -1206,7 +1208,8 @@
       this.dpr = Math.min(window.devicePixelRatio || 1, 2);
       this.canvas.width = Math.round(r.width * this.dpr);
       this.canvas.height = Math.round(r.height * this.dpr);
-      this.geo = geometry(r.width, r.height, { lastGapBase: PHYSICS.pegRadius + 2 / 3 * 2 * PHYSICS.ballRadius });
+      const third = 2 / 3 * 2 * PHYSICS.ballRadius;
+      this.geo = geometry(r.width, r.height, { lastGapBase: PHYSICS.pegRadius + third, topClearBase: third });
       this.pegLayer = null;
       const g = this.geo, left = g.pad + 2, width = 9 * g.s - 4;
       Object.assign(this.row.style, { left: left + "px", width: width + "px", bottom: g.pad + "px" });

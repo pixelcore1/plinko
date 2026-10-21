@@ -34,6 +34,7 @@ export const PHYSICS = {
 /**
  * Board geometry for a playfield of width W and height H (CSS px).
  * opts.lastGapBase: distance from the last peg row (centre) to the bin top, in Figma px at 390 px.
+ * opts.topClearBase: gap between the ball in the chute and the first peg (edges), in Figma px.
  * Default 30 (peg radius + one ball + 6). The prototype passes a smaller value to sit the pyramid lower.
  */
 export function geometry(W, H, opts = {}) {
@@ -45,7 +46,12 @@ export function geometry(W, H, opts = {}) {
   const lastGapBase = Number.isFinite(opts.lastGapBase) ? opts.lastGapBase : PHYSICS.pegRadius + 2 * PHYSICS.ballRadius + 6;
   const lastGap = lastGapBase * s / PHYSICS.baseSpacing;
   const row7 = binTop - lastGap;
-  const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - 34) / 7);
+  // opts.topClearBase: free space between the ball in the chute and the first peg, in Figma px. Default: first row at 34 px.
+  const ballRest = 12 + PHYSICS.ballRadius * s / PHYSICS.baseSpacing - 6;
+  const topReserve = Number.isFinite(opts.topClearBase)
+    ? ballRest + (PHYSICS.ballRadius + PHYSICS.pegRadius + opts.topClearBase) * s / PHYSICS.baseSpacing
+    : 34;
+  const rowGap = Math.min(s * PHYSICS.baseRowGap / PHYSICS.baseSpacing, (row7 - topReserve) / 7);
   const row0 = row7 - 7 * rowGap;
   const rows = [];
   for (let r = 0; r < ROWS; r++) {

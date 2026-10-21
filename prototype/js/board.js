@@ -37,8 +37,9 @@ export class Board {
     if (!r.width || !r.height) return;
     this.dpr = Math.min(window.devicePixelRatio || 1, 2);
     this.canvas.width = Math.round(r.width * this.dpr); this.canvas.height = Math.round(r.height * this.dpr);
-    // Prototype only: the last peg row sits 2/3 of a ball above the bins (peg edge to bin top), so the pyramid fills the board.
-    this.geo = geometry(r.width, r.height, { lastGapBase: PHYSICS.pegRadius + (2 / 3) * 2 * PHYSICS.ballRadius });
+    // Prototype only: 2/3 of a ball between the last row and the bins, and between the ball in the chute and the first row.
+    const third = (2 / 3) * 2 * PHYSICS.ballRadius;
+    this.geo = geometry(r.width, r.height, { lastGapBase: PHYSICS.pegRadius + third, topClearBase: third });
     this.pegLayer = null;
     const g = this.geo, left = g.pad + 2, width = 9 * g.s - 4;
     Object.assign(this.row.style, { left: left + 'px', width: width + 'px', bottom: g.pad + 'px' });
