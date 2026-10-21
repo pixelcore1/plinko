@@ -1,0 +1,65 @@
+T|Headline/H1/medium-500|Ubuntu Medium|size var(--font-size-h1)|w var(--weight-medium-500)|lh 115PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H1/bold-700|Ubuntu Bold|size var(--font-size-h1)|w var(--weight-bold-700)|lh 115PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H2/medium-500|Ubuntu Medium|size var(--font-size-h2)|w var(--weight-medium-500)|lh 120PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H2/bold-700|Ubuntu Bold|size var(--font-size-h2)|w var(--weight-bold-700)|lh 120PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H3/medium-500|Ubuntu Medium|size var(--font-size-h3)|w var(--weight-medium-500)|lh 125PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H3/bold-700|Ubuntu Bold|size var(--font-size-h3)|w var(--weight-bold-700)|lh 125PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H4/medium-500|Ubuntu Medium|size var(--font-size-h4)|w var(--weight-medium-500)|lh 125PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H4/bold-700|Ubuntu Bold|size var(--font-size-h4)|w var(--weight-bold-700)|lh 125PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H5/medium-500|Ubuntu Medium|size var(--font-size-h5)|w var(--weight-medium-500)|lh 130PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Headline/H5/bold-700|Ubuntu Bold|size var(--font-size-h5)|w var(--weight-bold-700)|lh 130PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+T|Body/Large/medium-500|Ubuntu Medium|size var(--font-size-large)|w var(--weight-medium-500)|lh 135PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Large/bold-700|Ubuntu Bold|size var(--font-size-large)|w var(--weight-bold-700)|lh 135PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Paragraph/medium-500|Ubuntu Medium|size var(--font-size-paragraph)|w var(--weight-medium-500)|lh 140PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Paragraph/bold-700|Ubuntu Bold|size var(--font-size-paragraph)|w var(--weight-bold-700)|lh 140PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Medium/medium-500|Ubuntu Medium|size var(--font-size-medium)|w var(--weight-medium-500)|lh 145PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Medium/bold-700|Ubuntu Bold|size var(--font-size-medium)|w var(--weight-bold-700)|lh 145PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Small/medium-500|Ubuntu Medium|size var(--font-size-small)|w var(--weight-medium-500)|lh 150PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Small/bold-700|Ubuntu Bold|size var(--font-size-small)|w var(--weight-bold-700)|lh 150PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Minimum/medium-500|Ubuntu Medium|size var(--font-size-minimum)|w var(--weight-medium-500)|lh 155PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Body/Minimum/bold-700|Ubuntu Bold|size var(--font-size-minimum)|w var(--weight-bold-700)|lh 155PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-body)
+T|Components/Button/lg|Ubuntu Bold|size var(--button-font-size-lg)|w var(--weight-bold-700)|lh 120PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-button)
+T|Components/Button/md|Ubuntu Bold|size var(--button-font-size-md)|w var(--weight-bold-700)|lh 120PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-button)
+T|Components/Button/sm|Ubuntu Bold|size var(--button-font-size-sm)|w var(--weight-bold-700)|lh 120PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-button)
+T|Title/H1/bold-700|Ubuntu Bold|size var(--font-size-h1)|w var(--weight-bold-700)|lh 115PERCENT|ls 0PERCENT|case UPPER|fam var(--font-headline)
+T|Title/H2/bold-700|Ubuntu Bold|size var(--font-size-h2)|w var(--weight-bold-700)|lh 120PERCENT|ls 2PERCENT|case UPPER|fam var(--font-headline)
+T|Title/H3/bold-700|Ubuntu Bold|size var(--font-size-h3)|w var(--weight-bold-700)|lh 125PERCENT|ls 2PERCENT|case UPPER|fam var(--font-headline)
+T|Title/Large/bold-700|Ubuntu Bold|size var(--font-size-large)|w var(--weight-bold-700)|lh 135PERCENT|ls 2PERCENT|case UPPER|fam var(--font-headline)
+T|Label/Paragraph/bold-700|Ubuntu Bold|size var(--font-size-paragraph)|w var(--weight-bold-700)|lh 140PERCENT|ls 12PERCENT|case UPPER|fam var(--font-body)
+T|Label/Small/bold-700|Ubuntu Bold|size var(--font-size-small)|w var(--weight-bold-700)|lh 150PERCENT|ls 12PERCENT|case UPPER|fam var(--font-body)
+T|Number/H2/bold-700|Ubuntu Bold|size var(--font-size-h2)|w var(--weight-bold-700)|lh 120PERCENT|ls 0PERCENT|case ORIGINAL|fam var(--font-headline)
+P|CTA/Default|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--magenta-500) 0%, var(--magenta-600) 60%
+P|CTA/Hover|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--magenta-600) 0%, var(--magenta-700) 60%
+P|CTA/Pressed|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--magenta-700) 0%, var(--magenta-800) 60%
+P|Ball/Trail|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--transparent) 0%, var(--plinko-ball-glow) 100%
+P|Bin/Mega|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--magenta-400) 0%, var(--magenta-500) 100% || GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--white-alpha-40) 0%, var(--transparent) 100%
+P|Bin/Surface|solid var(--bin-bg) || GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--white-alpha-40) 0%, var(--transparent) 100%
+P|Bin/Rim|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--white-alpha-48) 0%, var(--transparent) 50%
+P|Title/Gold|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--gold-100) 0%, var(--gold-300) 55%, var(--gold-400) 100%
+P|Frame/Body|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--plinko-frame-body-top) 0%, var(--plinko-frame-body-bottom) 100%
+P|Frame/Board|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--plinko-frame-board-top) 0%, var(--plinko-frame-board-bottom) 70%
+P|Frame/Board Pattern|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--plinko-frame-board-top) 0%, var(--plinko-frame-board-bottom) 70% || PATTERN
+P|Title/Pink|GRADIENT_LINEAR T[0,1,0;-1,0,1] var(--white) 0%, var(--magenta-400) 40%, var(--magenta-500) 100%
+P|Reward/Rays|GRADIENT_RADIAL T[1,0,0;0,1,0] var(--plinko-reward-ring) 20%, var(--transparent) 100%
+P|Takeover/Background|GRADIENT_RADIAL T[1.25,0,-0.125;0,1.67,-0.33] var(--plinko-takeover-top) 0%, var(--plinko-takeover-bottom) 75%
+E|Background blur/Low|BACKGROUND_BLUR var(--blur-low)
+E|Background blur/Medium|BACKGROUND_BLUR var(--blur-medium)
+E|Background blur/High|BACKGROUND_BLUR var(--blur-high)
+E|Glow/Primary pulse|DROP_SHADOW x0 y4 b16 s0 var(--buttons-primary-glow)
+E|Glow/Peg idle|DROP_SHADOW x0 y0 b6 s0 var(--plinko-peg-idle-glow)
+E|Glow/Peg hit|DROP_SHADOW x0 y0 b10 s2 var(--plinko-peg-hit-glow)
+E|Glow/Ball|DROP_SHADOW x0 y0 b16 s0 var(--plinko-ball-glow)
+E|Glow/Ball landed|DROP_SHADOW x0 y0 b22 s4 var(--plinko-ball-glow)
+E|Glow/Bulb pink|DROP_SHADOW x0 y0 b7 s2 var(--plinko-bulb-pink-glow)
+E|Glow/Bulb gold|DROP_SHADOW x0 y0 b7 s2 var(--plinko-bulb-gold-glow)
+E|Glow/Bin mega|DROP_SHADOW x0 y0 b12 s0 var(--plinko-bin-mega-glow)
+E|Glow/Bin anticipation|DROP_SHADOW x0 y0 b10 s0 var(--plinko-bin-hit-glow)
+E|Glow/Bin hit|DROP_SHADOW x0 y0 b22 s4 var(--plinko-bin-hit-glow)
+E|Text/Engraved|DROP_SHADOW x0 y0.5 b0.5 s0 var(--plinko-bin-text-highlight) || DROP_SHADOW x0 y-0.5 b0.5 s0 var(--plinko-bin-text-shade)
+E|Glow/Frame|DROP_SHADOW x0 y0 b24 s0 var(--plinko-frame-glow)
+E|Glow/Board inner|DROP_SHADOW x0 y0 b16 s0 var(--plinko-frame-glow)
+E|Shadow/Popover|DROP_SHADOW x0 y6 b20 s0 var(--scrim-medium)
+E|Shadow/Sheet|DROP_SHADOW x0 y-10 b40 s0 var(--scrim-medium)
+E|Glow/Bulb pink flare|DROP_SHADOW x0 y0 b14 s4 var(--plinko-bulb-pink-glow)
+E|Glow/Bulb gold flare|DROP_SHADOW x0 y0 b14 s4 var(--plinko-bulb-gold-glow)
+E|Glow/Frame gold|DROP_SHADOW x0 y0 b24 s4 var(--gold-alpha-64) || DROP_SHADOW x0 y0 b56 s8 var(--gold-alpha-32)

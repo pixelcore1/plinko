@@ -1,0 +1,10 @@
+# Brand material and the brief are not ours and must never be committed (repo is public, MIT)
+*.pdf
+mcluck*
+Task description*
+_transfer/
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+node_modules/

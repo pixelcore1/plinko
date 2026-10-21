@@ -1,0 +1,240 @@
+
+/* Primitives / Mode 1 */
+--neutral-50: #f5f5f5; /*Colours/Neutral/50*/
+--neutral-100: #e3e3e3; /*Colours/Neutral/100*/
+--neutral-200: #cccccc; /*Colours/Neutral/200*/
+--neutral-300: #acacac; /*Colours/Neutral/300*/
+--neutral-400: #808080; /*Colours/Neutral/400*/
+--neutral-500: #5e5e5e; /*Colours/Neutral/500*/
+--neutral-600: #464646; /*Colours/Neutral/600*/
+--neutral-700: #2b2b2b; /*Colours/Neutral/700*/
+--neutral-800: #161616; /*Colours/Neutral/800*/
+--neutral-900: #080808; /*Colours/Neutral/900*/
+--neutral-950: #030303; /*Colours/Neutral/950*/
+--slate-50: #f3f5f8; /*Colours/Slate/50*/
+--slate-100: #e4e8ef; /*Colours/Slate/100*/
+--slate-200: #cbd2dd; /*Colours/Slate/200*/
+--slate-300: #a8b2c2; /*Colours/Slate/300*/
+--slate-400: #7b889b; /*Colours/Slate/400*/
+--slate-500: #5a6678; /*Colours/Slate/500*/
+--slate-600: #38404c; /*Colours/Slate/600*/
+--slate-700: #272e39; /*Colours/Slate/700*/
+--slate-800: #242931; /*Colours/Slate/800*/
+--slate-900: #12161d; /*Colours/Slate/900*/
+--slate-950: #01030c; /*Colours/Slate/950*/
+--magenta-50: #fff1f1; /*Colours/Magenta/50*/
+--red-50: #fef2ef; /*Colours/Red/50*/
+--red-100: #fee3de; /*Colours/Red/100*/
+--red-200: #ffcfc6; /*Colours/Red/200*/
+--red-300: #ffb1a3; /*Colours/Red/300*/
+--red-400: #ff826e; /*Colours/Red/400*/
+--red-500: #fb543e; /*Colours/Red/500*/
+--red-600: #e11a00; /*Colours/Red/600*/
+--red-700: #be1400; /*Colours/Red/700*/
+--red-800: #980e00; /*Colours/Red/800*/
+--red-900: #7c0f04; /*Colours/Red/900*/
+--red-950: #460b05; /*Colours/Red/950*/
+--orange-50: #fcf3ed; /*Colours/Orange/50*/
+--gold-50: #fbf5e6; /*Colours/Gold/50*/
+--gold-100: #fcedc7; /*Colours/Gold/100*/
+--gold-200: #fae19b; /*Colours/Gold/200*/
+--gold-300: #fdd04a; /*Colours/Gold/300*/
+--gold-400: #d6a900; /*Colours/Gold/400*/
+--gold-500: #b18c00; /*Colours/Gold/500*/
+--gold-600: #917200; /*Colours/Gold/600*/
+--gold-700: #7a6000; /*Colours/Gold/700*/
+--gold-800: #614c00; /*Colours/Gold/800*/
+--gold-900: #503e04; /*Colours/Gold/900*/
+--gold-950: #2e2200; /*Colours/Gold/950*/
+--orange-100: #fae7db; /*Colours/Orange/100*/
+--orange-200: #fad6be; /*Colours/Orange/200*/
+--orange-300: #fabc92; /*Colours/Orange/300*/
+--orange-400: #ffa766; /*Colours/Orange/400*/
+--orange-500: #e47e27; /*Colours/Orange/500*/
+--orange-600: #c06300; /*Colours/Orange/600*/
+--orange-700: #a25100; /*Colours/Orange/700*/
+--orange-800: #7f3f03; /*Colours/Orange/800*/
+--orange-900: #602d01; /*Colours/Orange/900*/
+--orange-950: #3c1800; /*Colours/Orange/950*/
+--green-50: #eef9ef; /*Colours/Green/50*/
+--green-100: #dcf4df; /*Colours/Green/100*/
+--green-200: #c0efc6; /*Colours/Green/200*/
+--green-300: #93e8a1; /*Colours/Green/300*/
+--green-400: #3ddc6a; /*Colours/Green/400*/
+--green-500: #1fb04d; /*Colours/Green/500*/
+--green-600: #00963d; /*Colours/Green/600*/
+--green-700: #007e32; /*Colours/Green/700*/
+--green-800: #006326; /*Colours/Green/800*/
+--green-900: #0d4a1e; /*Colours/Green/900*/
+--green-950: #002d0d; /*Colours/Green/950*/
+--magenta-100: #ffe0e0; /*Colours/Magenta/100*/
+--magenta-200: #ffc9ca; /*Colours/Magenta/200*/
+--magenta-300: #ffa5a8; /*Colours/Magenta/300*/
+--magenta-400: #ff6977; /*Colours/Magenta/400*/
+--magenta-500: #fa114f; /*Colours/Magenta/500*/
+--magenta-600: #d1003f; /*Colours/Magenta/600*/
+--magenta-700: #a80031; /*Colours/Magenta/700*/
+--magenta-800: #7d0221; /*Colours/Magenta/800*/
+--magenta-900: #520e15; /*Colours/Magenta/900*/
+--magenta-950: #1a090d; /*Colours/Magenta/950*/
+--blue-50: #f0f5fe; /*Colours/Blue/50*/
+--blue-100: #dee9fb; /*Colours/Blue/100*/
+--blue-200: #c4dafc; /*Colours/Blue/200*/
+--blue-300: #9dc2fd; /*Colours/Blue/300*/
+--blue-400: #69a0fa; /*Colours/Blue/400*/
+--blue-500: #3b82f6; /*Colours/Blue/500*/
+--blue-600: #0b65e6; /*Colours/Blue/600*/
+--blue-700: #0054c8; /*Colours/Blue/700*/
+--blue-800: #0043a2; /*Colours/Blue/800*/
+--blue-900: #0b3981; /*Colours/Blue/900*/
+--blue-950: #09224b; /*Colours/Blue/950*/
+--purple-50: #f9f2fc; /*Colours/Purple/50*/
+--purple-100: #ecd8ec; /*Colours/Purple/100*/
+--purple-200: #d8b7e1; /*Colours/Purple/200*/
+--purple-300: #cf8ee5; /*Colours/Purple/300*/
+--purple-400: #c45dde; /*Colours/Purple/400*/
+--purple-500: #b03bcf; /*Colours/Purple/500*/
+--purple-600: #9a00bb; /*Colours/Purple/600*/
+--purple-700: #8400a1; /*Colours/Purple/700*/
+--purple-800: #6c0084; /*Colours/Purple/800*/
+--purple-900: #49045a; /*Colours/Purple/900*/
+--purple-950: #2c0235; /*Colours/Purple/950*/
+--white: #ffffff; /*Colours/White*/
+--black: #000000; /*Colours/Black*/
+--white-alpha-8: #NaNNaNNaN; /*Colours/White Alpha/8*/
+--black-alpha-8: #NaNNaNNaN; /*Colours/Black Alpha/8*/
+--white-alpha-16: #NaNNaNNaN; /*Colours/White Alpha/16*/
+--black-alpha-16: #NaNNaNNaN; /*Colours/Black Alpha/16*/
+--white-alpha-24: #NaNNaNNaN; /*Colours/White Alpha/24*/
+--black-alpha-24: #NaNNaNNaN; /*Colours/Black Alpha/24*/
+--white-alpha-32: #NaNNaNNaN; /*Colours/White Alpha/32*/
+--black-alpha-32: #NaNNaNNaN; /*Colours/Black Alpha/32*/
+--white-alpha-40: #NaNNaNNaN; /*Colours/White Alpha/40*/
+--black-alpha-40: #NaNNaNNaN; /*Colours/Black Alpha/40*/
+--white-alpha-48: #NaNNaNNaN; /*Colours/White Alpha/48*/
+--black-alpha-48: #NaNNaNNaN; /*Colours/Black Alpha/48*/
+--white-alpha-56: #NaNNaNNaN; /*Colours/White Alpha/56*/
+--black-alpha-56: #NaNNaNNaN; /*Colours/Black Alpha/56*/
+--white-alpha-64: #NaNNaNNaN; /*Colours/White Alpha/64*/
+--black-alpha-64: #NaNNaNNaN; /*Colours/Black Alpha/64*/
+--white-alpha-72: #NaNNaNNaN; /*Colours/White Alpha/72*/
+--black-alpha-72: #NaNNaNNaN; /*Colours/Black Alpha/72*/
+--white-alpha-80: #NaNNaNNaN; /*Colours/White Alpha/80*/
+--black-alpha-80: #NaNNaNNaN; /*Colours/Black Alpha/80*/
+--white-alpha-88: #NaNNaNNaN; /*Colours/White Alpha/88*/
+--black-alpha-88: #NaNNaNNaN; /*Colours/Black Alpha/88*/
+--white-alpha-96: #NaNNaNNaN; /*Colours/White Alpha/96*/
+--black-alpha-96: #NaNNaNNaN; /*Colours/Black Alpha/96*/
+--utilities-spacing-1: N:4:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/1*/
+--utilities-spacing-2: N:8:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/2*/
+--utilities-spacing-3: N:12:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/3*/
+--utilities-spacing-4: N:16:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/4*/
+--utilities-spacing-5: N:20:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/5*/
+--utilities-spacing-6: N:24:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/6*/
+--utilities-spacing-7: N:28:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/7*/
+--utilities-spacing-8: N:32:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/8*/
+--utilities-spacing-9: N:36:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/9*/
+--utilities-spacing-10: N:40:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/10*/
+--utilities-spacing-11: N:44:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/11*/
+--utilities-spacing-12: N:48:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/12*/
+--utilities-spacing-13: N:52:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/13*/
+--utilities-spacing-14: N:56:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/14*/
+--utilities-spacing-15: N:60:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/15*/
+--utilities-spacing-16: N:64:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/16*/
+--utilities-spacing-17: N:68:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/17*/
+--utilities-spacing-18: N:72:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/18*/
+--utilities-spacing-19: N:76:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/19*/
+--utilities-spacing-20: N:80:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/20*/
+--utilities-spacing-21: N:84:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/21*/
+--utilities-spacing-22: N:88:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/22*/
+--utilities-spacing-23: N:92:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/23*/
+--utilities-spacing-24: N:96:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/24*/
+--utilities-spacing-25: N:100:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/25*/
+--utilities-spacing-26: N:104:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/26*/
+--utilities-spacing-27: N:108:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/27*/
+--utilities-spacing-28: N:112:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/28*/
+--utilities-spacing-29: N:116:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/29*/
+--utilities-spacing-30: N:120:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/30*/
+--utilities-spacing-31: N:124:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/31*/
+--utilities-spacing-32: N:128:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/32*/
+--utilities-spacing-33: N:132:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/33*/
+--utilities-spacing-34: N:136:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/34*/
+--utilities-spacing-35: N:140:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/35*/
+--utilities-spacing-36: N:144:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/36*/
+--utilities-spacing-37: N:148:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/37*/
+--utilities-spacing-38: N:152:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/38*/
+--utilities-spacing-39: N:156:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/39*/
+--utilities-spacing-40: N:160:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/40*/
+--utilities-spacing-41: N:164:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/41*/
+--utilities-spacing-42: N:168:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/42*/
+--utilities-spacing-43: N:172:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/43*/
+--utilities-spacing-44: N:176:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/44*/
+--utilities-spacing-45: N:180:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/45*/
+--utilities-spacing-46: N:184:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/46*/
+--utilities-spacing-47: N:188:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/47*/
+--utilities-spacing-48: N:192:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/48*/
+--utilities-spacing-49: N:196:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/49*/
+--utilities-spacing-50: N:200:WIDTH_HEIGHT,GAP; /*Utilities/Spacing/50*/
+--utilities-radius-1: N:4:CORNER_RADIUS; /*Utilities/Border Radius/1*/
+--utilities-radius-2: N:8:CORNER_RADIUS; /*Utilities/Border Radius/2*/
+--utilities-radius-3: N:12:CORNER_RADIUS; /*Utilities/Border Radius/3*/
+--utilities-radius-4: N:16:CORNER_RADIUS; /*Utilities/Border Radius/4*/
+--utilities-radius-5: N:20:CORNER_RADIUS; /*Utilities/Border Radius/5*/
+--utilities-radius-6: N:24:CORNER_RADIUS; /*Utilities/Border Radius/6*/
+--utilities-radius-7: N:28:CORNER_RADIUS; /*Utilities/Border Radius/7*/
+--utilities-radius-8: N:32:CORNER_RADIUS; /*Utilities/Border Radius/8*/
+--utilities-radius-9: N:36:CORNER_RADIUS; /*Utilities/Border Radius/9*/
+--utilities-radius-10: N:40:CORNER_RADIUS; /*Utilities/Border Radius/10*/
+--utilities-breakpoint-mobile: N:360:; /*Utilities/Breakpoints/mobile*/
+--utilities-breakpoint-desktop: N:1024:; /*Utilities/Breakpoints/desktop*/
+--typography-font-body: "Ubuntu"; /*Typography/Font/Body*/
+--typography-font-headline: "Ubuntu"; /*Typography/Font/Headline*/
+--typography-weight-light: N:300:FONT_WEIGHT; /*Typography/Weight/Light*/
+--typography-weight-regular: N:400:FONT_WEIGHT; /*Typography/Weight/Regular*/
+--typography-weight-medium: N:500:FONT_WEIGHT; /*Typography/Weight/Medium*/
+--typography-weight-bold: N:700:FONT_WEIGHT; /*Typography/Weight/Bold*/
+--typography-size-1: N:9:FONT_SIZE; /*Typography/Sizes/1*/
+--typography-size-2: N:10:FONT_SIZE; /*Typography/Sizes/2*/
+--typography-size-3: N:12:FONT_SIZE; /*Typography/Sizes/3*/
+--typography-size-4: N:13:FONT_SIZE; /*Typography/Sizes/4*/
+--typography-size-5: N:14:FONT_SIZE; /*Typography/Sizes/5*/
+--typography-size-6: N:16:FONT_SIZE; /*Typography/Sizes/6*/
+--typography-size-7: N:18:FONT_SIZE; /*Typography/Sizes/7*/
+--typography-size-8: N:20:FONT_SIZE; /*Typography/Sizes/8*/
+--typography-size-9: N:24:FONT_SIZE; /*Typography/Sizes/9*/
+--typography-size-10: N:32:FONT_SIZE; /*Typography/Sizes/10*/
+--typography-size-11: N:40:FONT_SIZE; /*Typography/Sizes/11*/
+--typography-size-12: N:48:FONT_SIZE; /*Typography/Sizes/12*/
+--typography-size-13: N:56:FONT_SIZE; /*Typography/Sizes/13*/
+--typography-size-display-1: N:20:FONT_SIZE; /*Typography/Sizes/Display/1*/
+--typography-size-display-2: N:26:FONT_SIZE; /*Typography/Sizes/Display/2*/
+--typography-size-display-3: N:36:FONT_SIZE; /*Typography/Sizes/Display/3*/
+--typography-size-display-4: N:40:FONT_SIZE; /*Typography/Sizes/Display/4*/
+--typography-size-display-5: N:48:FONT_SIZE; /*Typography/Sizes/Display/5*/
+--typography-size-display-6: N:64:FONT_SIZE; /*Typography/Sizes/Display/6*/
+--typography-size-display-7: N:90:FONT_SIZE; /*Typography/Sizes/Display/7*/
+--magenta-alpha-8: #NaNNaNNaN; /*Colours/Magenta Alpha/8*/
+--magenta-alpha-16: #NaNNaNNaN; /*Colours/Magenta Alpha/16*/
+--magenta-alpha-24: #NaNNaNNaN; /*Colours/Magenta Alpha/24*/
+--magenta-alpha-32: #NaNNaNNaN; /*Colours/Magenta Alpha/32*/
+--magenta-alpha-40: #NaNNaNNaN; /*Colours/Magenta Alpha/40*/
+--magenta-alpha-48: #NaNNaNNaN; /*Colours/Magenta Alpha/48*/
+--magenta-alpha-56: #NaNNaNNaN; /*Colours/Magenta Alpha/56*/
+--magenta-alpha-64: #NaNNaNNaN; /*Colours/Magenta Alpha/64*/
+--magenta-alpha-72: #NaNNaNNaN; /*Colours/Magenta Alpha/72*/
+--magenta-alpha-80: #NaNNaNNaN; /*Colours/Magenta Alpha/80*/
+--magenta-alpha-88: #NaNNaNNaN; /*Colours/Magenta Alpha/88*/
+--magenta-alpha-96: #NaNNaNNaN; /*Colours/Magenta Alpha/96*/
+--gold-alpha-8: #NaNNaNNaN; /*Colours/Gold Alpha/8*/
+--gold-alpha-16: #NaNNaNNaN; /*Colours/Gold Alpha/16*/
+--gold-alpha-24: #NaNNaNNaN; /*Colours/Gold Alpha/24*/
+--gold-alpha-32: #NaNNaNNaN; /*Colours/Gold Alpha/32*/
+--gold-alpha-40: #NaNNaNNaN; /*Colours/Gold Alpha/40*/
+--gold-alpha-48: #NaNNaNNaN; /*Colours/Gold Alpha/48*/
+--gold-alpha-56: #NaNNaNNaN; /*Colours/Gold Alpha/56*/
+--gold-alpha-64: #NaNNaNNaN; /*Colours/Gold Alpha/64*/
+--gold-alpha-72: #NaNNaNNaN; /*Colours/Gold Alpha/72*/
+--gold-alpha-80: #NaNNaNNaN; /*Colours/Gold Alpha/80*/
+--gold-alpha-88: #NaNNaNNaN; /*Colours/Gold Alpha/88*/
+--gold-alpha-96: #NaNNaNNaN; /*Colours/Gold Alpha/96*/
+--transparent: rgb(255 255 255 / 0); /*Colours/Transparent*/

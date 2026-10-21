@@ -1,0 +1,80 @@
+/* Plinko UI motion: shared keyframes. Durations and easing always come from Motion tokens.
+   Reduced motion: the Motion "Reduced" mode (tokens.css) shortens durations and removes overshoot;
+   the rules at the end stop every loop and hide particles. Catalogue with specs: design-system/index.html#motion */
+
+@keyframes plk-spin { to { transform: rotate(360deg); } }
+
+/* Button Pulse: the glow breathes to invite a tap (Glow/Primary pulse) */
+@keyframes plk-pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 var(--transparent); } 50% { box-shadow: var(--glow-primary-pulse), 0 0 0 4px var(--state-action-primary-24); } }
+
+/* Frame bulbs: Idle twinkle (neighbours swap On and Dim), Active chase (every 4th bulb lit in turn) */
+@keyframes plk-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@keyframes plk-chase { 0% { opacity: 1; } 25%, 100% { opacity: 0.35; } }
+
+/* Bin Hit: the glow pulses (Glow/Bin hit) */
+@keyframes plk-bin-hit { 0%, 100% { box-shadow: inset 0 0 0 2px var(--plinko-bin-hit-outline), var(--glow-bin-hit); } 50% { box-shadow: inset 0 0 0 2px var(--plinko-bin-hit-outline), 0 0 30px 8px var(--plinko-bin-hit-glow); } }
+
+/* Bin Anticipation: reachable bins lift and brighten while the ball is in the last 2 rows */
+@keyframes plk-anticipate { from { transform: translateY(0); filter: brightness(1); } to { transform: translateY(-3px); filter: brightness(1.25); } }
+
+/* Ticket gained: gold +1 rises next to the count and fades */
+@keyframes plk-gain { 0% { opacity: 0; transform: translateY(6px) scale(0.6); } 30% { opacity: 1; transform: translateY(0) scale(1.15); } 70% { opacity: 1; transform: translateY(-2px) scale(1); } 100% { opacity: 0; transform: translateY(-10px); } }
+
+/* Toast float (Interaction/toast-float, 1.8 s): pops in over the bin, rises 96 px and fades.
+   The sway is a second animation on the translate and rotate properties: one slow sine from side to side. */
+@keyframes plk-toast-float {
+  0%   { opacity: 0; transform: translate(-50%, -40%) scale(0.8); }
+  12%  { opacity: 1; transform: translate(-50%, -100%) scale(1.06); }
+  20%  { opacity: 1; transform: translate(-50%, calc(-100% - 8px)) scale(1); }
+  55%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, calc(-100% - 96px)) scale(0.96); }
+}
+@keyframes plk-toast-sway { from { translate: -5px 0; rotate: -2deg; } to { translate: 5px 0; rotate: 2deg; } }
+/* Reduced motion: the toast fades in, stays, fades out. No movement. */
+@keyframes plk-toast-fade { 0% { opacity: 0; transform: translate(-50%, -100%); } 12%, 80% { opacity: 1; transform: translate(-50%, -100%); } 100% { opacity: 0; transform: translate(-50%, -100%); } }
+
+/* Win build-up: bulbs flare before a big or mega win (Interaction/win-buildup, win-buildup-big) */
+@keyframes plk-chase-inverse { 0% { opacity: 0.2; } 25%, 100% { opacity: 1; } }
+@keyframes plk-bulb-flare { 0% { transform: scale(1); filter: brightness(1); } 40% { transform: scale(1.45); filter: brightness(1.9); } 100% { transform: scale(1.2); filter: brightness(1.5); } }
+
+/* Bins reel: a slot reel spins and stops with a small overshoot (Interaction/bins-reel). The strip is moved by JS (Web Animations API). */
+@keyframes plk-reel-stop { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+
+/* Reward art: icon float and rays turn (12 rays, 30 deg = one ray, seamless loop) */
+@keyframes plk-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6%); } }
+@keyframes plk-rays { to { transform: rotate(30deg); } }
+
+/* Overlays */
+@keyframes plk-fade-in { from { opacity: 0; } }
+@keyframes plk-fade-out { to { opacity: 0; } }
+@keyframes plk-modal-enter { from { opacity: 0; transform: scale(0.7); } }
+@keyframes plk-modal-exit { to { opacity: 0; transform: scale(0.92); } }
+@keyframes plk-sheet-enter { from { transform: translateY(100%); } }
+@keyframes plk-sheet-exit { to { transform: translateY(100%); } }
+@keyframes plk-pop { 0% { transform: scale(0.3); opacity: 0; } 60% { opacity: 1; } }
+
+.anim-modal-enter { animation: plk-modal-enter var(--motion-modal-enter-duration) var(--motion-modal-enter-easing) both; }
+.anim-modal-exit { animation: plk-modal-exit var(--motion-modal-exit-duration) var(--motion-modal-exit-easing) both; }
+.anim-sheet-enter { animation: plk-sheet-enter var(--motion-sheet-enter-duration) var(--motion-sheet-enter-easing) both; }
+.anim-sheet-exit { animation: plk-sheet-exit var(--motion-sheet-exit-duration) var(--motion-sheet-exit-easing) both; }
+.anim-fade-in { animation: plk-fade-in var(--motion-fade-duration) var(--motion-fade-easing) both; }
+.anim-fade-out { animation: plk-fade-out var(--motion-fade-duration) var(--motion-fade-easing) both; }
+
+/* Reduced motion: loops stop, particles hide, entrances become fades (durations already short from tokens) */
+@media (prefers-reduced-motion: reduce) {
+  .button.is-pulse, .frame .bulb, .frame.is-active .bulb, .bin.is-hit, .bin.is-anticipation, .reward-art .reward-icon, .reward-art__rays { animation: none !important; }
+  .anim-modal-enter, .anim-sheet-enter { animation-name: plk-fade-in; }
+  .anim-modal-exit, .anim-sheet-exit { animation-name: plk-fade-out; }
+  .fx-layer { display: none; }
+  .toast { animation: plk-toast-fade var(--motion-toast-float-duration) linear both !important; }
+  .frame.is-flare .bulb, .frame.is-celebrate .bulb { animation: none !important; transform: none; filter: brightness(1.4); }
+  .spinner { animation: plk-twinkle var(--motion-pulse-duration) var(--motion-pulse-easing) infinite; }
+}
+[data-motion="reduced"] .spinner { animation: plk-twinkle var(--motion-pulse-duration) var(--motion-pulse-easing) infinite; }
+[data-motion="reduced"] .button.is-pulse, [data-motion="reduced"] .frame .bulb, [data-motion="reduced"] .bin.is-hit, [data-motion="reduced"] .bin.is-anticipation,
+[data-motion="reduced"] .reward-art .reward-icon, [data-motion="reduced"] .reward-art__rays { animation: none !important; }
+[data-motion="reduced"] .anim-modal-enter, [data-motion="reduced"] .anim-sheet-enter { animation-name: plk-fade-in; }
+[data-motion="reduced"] .anim-modal-exit, [data-motion="reduced"] .anim-sheet-exit { animation-name: plk-fade-out; }
+[data-motion="reduced"] .fx-layer { display: none; }
+[data-motion="reduced"] .toast { animation: plk-toast-fade var(--motion-toast-float-duration) linear both !important; }
+[data-motion="reduced"] .frame.is-flare .bulb, [data-motion="reduced"] .frame.is-celebrate .bulb { animation: none !important; transform: none; filter: brightness(1.4); }

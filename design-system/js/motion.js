@@ -1,0 +1,153 @@
+/* Motion catalogue: every animation in the Plinko UI, with the spec a developer needs to build it.
+   Used by the documentation page (live demos) and kept next to the code that runs it.
+   Token names are CSS custom properties from css/tokens.css (Figma collection "Motion", modes Default and Reduced). */
+
+export const MOTION_PRINCIPLES = [
+  ['Feedback first', 'Every tap answers within 100 ms: press scale, a click sound and a light vibration.'],
+  ['Celebration scales with the win', 'Small wins get a toast and the game keeps going. Big wins get a sheet and a coin burst. Only a mega win stops the game with a takeover and confetti.'],
+  ['Anticipation is real, not fake', 'Slow motion and glowing bins start on the last 2 rows for every drop. Only bins the ball can still reach glow. We never fake a near miss.'],
+  ['Idle is calm', 'Loops (bulb twinkle, button pulse, float) are slow and soft. Fast motion is saved for the drop.'],
+  ['Reduced motion is a full mode', 'With prefers-reduced-motion, durations get short, overshoot goes away, loops stop and particles hide. The game still makes sense and the result is the same.'],
+];
+
+export const DURATIONS = [
+  ['--duration-short-1', 50], ['--duration-short-2', 100], ['--duration-short-3', 150], ['--duration-short-4', 200],
+  ['--duration-medium-1', 250], ['--duration-medium-2', 300], ['--duration-medium-3', 350], ['--duration-medium-4', 400],
+  ['--duration-long-1', 450], ['--duration-long-2', 500], ['--duration-long-3', 550], ['--duration-long-4', 600], ['--duration-extra-long-2', 800],
+];
+
+export const EASINGS = [
+  ['--easing-linear', [0, 0, 1, 1], 'Spinner, rays: constant speed'],
+  ['--easing-standard', [0.2, 0, 0, 1], 'Most state changes: colour, fade, toggle'],
+  ['--easing-standard-decelerate', [0, 0, 0, 1], 'Things that come to rest: peg flash'],
+  ['--easing-standard-accelerate', [0.3, 0, 1, 1], 'Things that leave: modal exit'],
+  ['--easing-emphasized-decelerate', [0.05, 0.7, 0.1, 1], 'Big entrances: sheet, toast'],
+  ['--easing-emphasized-accelerate', [0.3, 0, 0.8, 0.15], 'Big exits: sheet exit'],
+  ['--easing-overshoot', [0.34, 1.56, 0.64, 1], 'Playful arrivals: selector thumb, bins, modal. Reduced: becomes standard'],
+];
+
+/* Token pairs per micro-interaction (Figma: Motion / Interaction/*). [name, duration token, easing token, default, reduced] */
+export const INTERACTIONS = [
+  ['press', '--motion-press-duration', '--motion-press-easing', '100 ms, standard', '50 ms'],
+  ['hover', '--motion-hover-duration', '--motion-hover-easing', '150 ms, standard', 'same'],
+  ['fade', '--motion-fade-duration', '--motion-fade-easing', '150 ms, standard', 'same'],
+  ['selector', '--motion-selector-duration', '--motion-selector-easing', '300 ms, overshoot', '150 ms, standard'],
+  ['bins-reshuffle', '--motion-bins-reshuffle-duration', '--motion-bins-reshuffle-easing', '400 ms, overshoot', '150 ms, standard'],
+  ['toast', '--motion-toast-duration', '--motion-toast-easing', '250 ms, emphasized decelerate', '150 ms, standard'],
+  ['sheet-enter', '--motion-sheet-enter-duration', '--motion-sheet-enter-easing', '400 ms, emphasized decelerate', '150 ms fade'],
+  ['sheet-exit', '--motion-sheet-exit-duration', '--motion-sheet-exit-easing', '200 ms, emphasized accelerate', '150 ms fade'],
+  ['modal-enter', '--motion-modal-enter-duration', '--motion-modal-enter-easing', '500 ms, overshoot', '150 ms fade'],
+  ['modal-exit', '--motion-modal-exit-duration', '--motion-modal-exit-easing', '200 ms, standard accelerate', '150 ms fade'],
+  ['peg-hit', '--motion-peg-hit-duration', '--motion-peg-hit-easing', '300 ms, decelerate', '150 ms'],
+  ['spinner', '--motion-spinner-duration', '--motion-spinner-easing', '800 ms per turn, linear, loop', 'no turn, opacity pulse'],
+  ['pulse', '--motion-pulse-duration', '--motion-pulse-easing', '1.6 s loop, ease in-out', 'off'],
+  ['float', '--motion-float-duration', '--motion-float-easing', '2.8 s loop, ease in-out', 'off (0 ms)'],
+  ['bulb-twinkle', '--motion-bulb-twinkle-duration', '--motion-bulb-twinkle-easing', '3.2 s loop', 'off'],
+  ['bulb-chase', '--motion-bulb-chase-duration', 'steps(1)', '200 ms per step, 4 steps', 'off'],
+  ['bins-reel', '--motion-bins-reel-duration (+ --motion-bins-reel-stagger-duration per bin from centre)', '--motion-bins-reel-easing', '800 ms + 90 ms per step, fast start, slow stop, small overshoot', 'no spin, 150 ms'],
+  ['win-buildup', '--motion-win-buildup-duration', '--easing-standard', '800 ms (mega: gold frame, bulbs flare)', '150 ms, no flare'],
+  ['win-buildup-big', '--motion-win-buildup-big-duration', '--easing-standard', '500 ms (big: bulbs flare)', '150 ms, no flare'],
+  ['toast-float', '--motion-toast-float-duration', '--motion-pulse-easing per keyframe', '1.8 s: pop in, rise 96 px with one slow sway, fade', '1.6 s fade, no movement'],
+];
+
+/* The catalogue. demo = key of a live demo in docs.js. spec rows: [property, from, to, duration, easing, delay / loop] */
+export const MOTION = [
+  // Controls
+  { id: 'button-press', group: 'Controls', name: 'Button press', component: 'plinko/button, plinko/icon-button', trigger: 'Pointer down on an enabled button',
+    spec: [['transform', 'scale(1)', 'scale(0.97); icon button 0.92', '--motion-press-duration', '--motion-press-easing', 'none'], ['background', 'CTA/Default', 'CTA/Pressed', '--motion-hover-duration', '--motion-hover-easing', 'none']],
+    reduced: 'Same, 50 ms.', sync: 'Sound ui-tap, haptic tap (10 ms).',
+    code: `.button { transition: transform var(--motion-press-duration) var(--motion-press-easing); }\n.button:active { transform: scale(0.97); }`, demo: 'button' },
+  { id: 'button-pulse', group: 'Controls', name: 'Drop button pulse', component: 'plinko/button, Pulse=true', trigger: 'Ready state: Drop invites a tap. Stops on press and during the drop.',
+    spec: [['box-shadow', 'none', 'Glow/Primary pulse 0 4 16 + 4 px ring', '--motion-pulse-duration (1.6 s)', '--motion-pulse-easing', 'infinite, 50 % peak']],
+    reduced: 'Off. The button keeps its colour, no glow.', sync: 'None.',
+    code: `.button.is-pulse { animation: plk-pulse-glow var(--motion-pulse-duration) var(--motion-pulse-easing) infinite; }`, demo: 'pulse' },
+  { id: 'spinner', group: 'Controls', name: 'Spinner', component: 'plinko/spinner', trigger: 'Button Loading (Drop during the drop)',
+    spec: [['transform', 'rotate(0)', 'rotate(360deg)', '--motion-spinner-duration (0.8 s)', 'linear', 'infinite']],
+    reduced: 'No rotation; the arc pulses opacity.', sync: 'None.', code: `.spinner { animation: plk-spin var(--motion-spinner-duration) linear infinite; }`, demo: 'spinner' },
+  { id: 'risk-thumb', group: 'Controls', name: 'Risk selector thumb', component: 'plinko/risk-selector', trigger: 'A risk segment is selected (tap or arrow keys)',
+    spec: [['transform (thumb)', 'translateX(old)', 'translateX(i x (100% + 4px))', '--motion-selector-duration (0.3 s)', '--motion-selector-easing (overshoot)', 'none'], ['label colour', 'muted', 'white', '--motion-fade-duration', '--motion-fade-easing', 'none'], ['chart bar fill', 'grey', 'heat colour', '--motion-selector-duration', '--easing-standard', '20 ms per bar from the centre out'], ['caption opacity', '1', '0, swap text, 1', '--motion-fade-duration', '--motion-fade-easing', '150 ms swap']],
+    reduced: '150 ms, no overshoot.', sync: 'Sound risk-change (pitch follows the level), haptic selection (8 ms).',
+    code: `.risk-selector__thumb { transform: translateX(calc(var(--i) * (100% + var(--spacing-2xs))));\n  transition: transform var(--motion-selector-duration) var(--motion-selector-easing); }`, demo: 'risk' },
+  { id: 'bins-reshuffle', group: 'Controls', name: 'Bins reel (slot spin)', component: 'plinko/bin-row', trigger: 'Risk level changes. Every bin spins like a slot reel and stops on the new prize. The chance strip does not move.',
+    spec: [['strip transform', 'translateY(0)', 'translateY(-(n + 1) x bin height)', '--motion-bins-reel-duration (0.8 s) + distance from centre x --motion-bins-reel-stagger-duration (90 ms)', '--motion-bins-reel-easing (fast start, long slow-down, small overshoot)', 'n = 7 + 2 x distance from centre prizes pass by'], ['strip blur', '0', '1.2 px at 20 %, 0.6 px at 70 %, then 0', 'same', 'same', 'motion blur while it spins fast'], ['bin colour (heat)', 'old heat', 'new heat', 'at 60 % of the spin', '-', 'the colour lands with the prize'], ['bin transform on stop', 'scale(1)', 'scale(1.14) then 1', '--motion-bins-reshuffle-duration (0.4 s)', '--motion-bins-reshuffle-easing (overshoot)', 'once per bin']],
+    reduced: 'No spin: values and colours change at once.', sync: 'Sound bins-shuffle at the start, a coin-tick as each reel stops (pitch rises to the edges), haptic selection.',
+    code: `const a = strip.animate([{ transform: 'translateY(0)' }, { transform: \`translateY(\${-(n + 1) * h}px)\` }],\n  { duration: reel + d * stagger, easing: reelEasing, fill: 'forwards' });  // board.js setBins()`, demo: 'bins' },
+  { id: 'toggle', group: 'Controls', name: 'Toggle and checkbox', component: 'plinko/toggle, plinko/checkbox', trigger: 'Tap or Space',
+    spec: [['knob transform', 'translateX(0)', 'translateX(20px)', '--duration-short-4 (200 ms)', '--easing-standard', 'none'], ['knob width (pressed)', '20 px', '24 px', '--motion-press-duration', '--motion-press-easing', 'while pressed'], ['check mark scale', '0', '1', '--duration-short-4', '--easing-overshoot', 'none']],
+    reduced: 'Same timing, no overshoot.', sync: 'Sound ui-toggle (higher pitch for On), haptic selection.', code: `.toggle__knob { transition: transform var(--duration-short-4) var(--easing-standard); }`, demo: 'toggle' },
+  { id: 'tab-thumb', group: 'Controls', name: 'Tab bar thumb', component: 'plinko/tab-bar', trigger: 'Tab selected in Rules and odds',
+    spec: [['thumb transform', 'translateX(old)', 'translateX(new)', '--motion-selector-duration', '--motion-selector-easing', 'none']],
+    reduced: '150 ms, no overshoot.', sync: 'Sound ui-tab, haptic selection.', code: `.tab-bar__thumb { transition: transform var(--motion-selector-duration) var(--motion-selector-easing); }`, demo: 'tabs' },
+
+  // Board
+  { id: 'bulbs-idle', group: 'Board', name: 'Bulbs: idle twinkle', component: 'plinko/frame, State=Idle', trigger: 'Ready state',
+    spec: [['opacity (each bulb)', '1', '0.45 and back', '--motion-bulb-twinkle-duration (3.2 s)', '--motion-bulb-twinkle-easing', 'infinite; odd bulbs start half a cycle later, so neighbours swap']],
+    reduced: 'Off: bulbs stay on.', sync: 'Sound ambient loop (very low).', code: `.frame .bulb { animation: plk-twinkle var(--motion-bulb-twinkle-duration) var(--motion-bulb-twinkle-easing) infinite;\n  animation-delay: calc(var(--odd) * var(--motion-bulb-twinkle-duration) / -2); }`, demo: 'frame-idle' },
+  { id: 'bulbs-chase', group: 'Board', name: 'Bulbs: running lights', component: 'plinko/frame, State=Active', trigger: 'From Drop until the ball lands',
+    spec: [['opacity + brightness', 'dim 0.35', 'lit 1, brightness 1.4', '--motion-bulb-chase-duration (0.2 s) per step', 'steps(1)', '4-step cycle; bulb n lights at step n mod 4']],
+    reduced: 'Off.', sync: 'Starts with ball-release.', code: `.frame.is-active .bulb { animation: plk-chase calc(var(--motion-bulb-chase-duration) * 4) steps(1, end) infinite;\n  animation-delay: calc(var(--n) * var(--motion-bulb-chase-duration) * -1); }`, demo: 'frame-active' },
+  { id: 'ball-drop', group: 'Board', name: 'Ball drop (physics)', component: 'plinko/ball, plinko/peg', trigger: 'Drop. The result is decided before this starts.',
+    spec: [['position', 'under the chute', 'decided bin', 'about 2.6 s: 1.2 s for rows 1 to 6, 1.3 s in slow motion (from physics, not a token)', 'gravity 3000 px/s2, restitution 0.28 to 0.42', 'see Physics'], ['peg colour + glow', 'Plinko/peg/idle', 'Plinko/peg/hit then back', '--motion-peg-hit-duration (0.3 s)', '--motion-peg-hit-easing', 'on every contact'], ['trail', '-', 'last 8 positions, alpha 0 to 0.35', 'per frame', '-', 'off with reduced motion']],
+    reduced: 'Same path and result. No trail, no slow motion.', sync: 'ball-release sound + haptic 15 ms; peg-hit pluck per contact, pitch rises row by row; haptic 5 ms on the last 2 rows only.',
+    code: `const drop = buildDrop(geometry(w, h), bin.index, random);  // physics.js\nrequestAnimationFrame(function step(now) { t += dt * timeScaleAt(drop, t); draw(sample(drop, t)); … });`, demo: 'drop' },
+  { id: 'slow-motion', group: 'Board', name: 'Last rows: slow motion and anticipation', component: 'plinko/board, plinko/bin State=Anticipation', trigger: 'Ball touches row 6 (2 rows left)',
+    spec: [['time scale', '1', '0.5', '80 ms ramp', 'linear', 'until landing'], ['bin glow (reachable bins only)', 'none', 'Glow/Bin anticipation', '--motion-fade-duration', '--motion-fade-easing', 'only the 3 bins the ball can still reach'], ['bin lift + brightness', 'translateY(0), 1', 'translateY(-3px), 1.25', '--duration-long-2 (500 ms)', '--motion-pulse-easing', 'infinite, alternate, until landing']],
+    reduced: 'No slow motion, no lift. Glow only.', sync: 'Sound riser starts, cut on landing.', code: `if (event.type === 'last-rows') reachable.forEach((b) => b.classList.add('is-anticipation'));`, demo: 'drop' },
+  { id: 'bin-hit', group: 'Board', name: 'Bin hit and landed ball', component: 'plinko/bin State=Hit, plinko/ball State=Landed, plinko/chance-bar State=Hit', trigger: 'Ball lands',
+    spec: [['bin transform', 'translateY(0)', 'translateY(3px)', '--motion-bins-reshuffle-duration', 'overshoot', 'none'], ['bin glow', 'Glow/Bin hit', 'stronger and back', '--motion-pulse-duration', '--motion-pulse-easing', 'infinite until next drop'], ['ball glow', '18 px', '26 px and back', '1.6 s', 'cosine', 'infinite'], ['chance bar', 'white 8 %', 'white 24 %', '--motion-fade-duration', 'standard', 'none']],
+    reduced: 'Hit look without the pulse.', sync: 'Sound bin-land (brighter chime for hotter bins), haptic bin-land 30 ms.', code: `.bin.is-hit { transform: translateY(3px); animation: plk-bin-hit var(--motion-pulse-duration) var(--motion-pulse-easing) infinite; }`, demo: 'bin-hit' },
+  { id: 'ticket-gain', group: 'Board', name: 'Ticket gained', component: 'plinko/ticket-tab State=Gained', trigger: 'A ticket arrives (free daily ticket)',
+    spec: [['"+1" opacity, transform', '0, translateY(6px) scale(0.6)', '1, scale(1.15) then rise and fade', '600 ms', '--easing-emphasized-decelerate', 'none']],
+    reduced: '+1 fades only.', sync: 'Sound ticket-gain, haptic 15 ms.', code: `.ticket-tab.is-gained .ticket-tab__gain { animation: plk-gain 600ms var(--easing-emphasized-decelerate) both; }`, demo: 'ticket' },
+
+  // Results
+  { id: 'toast', group: 'Results', name: 'Small win toast', component: 'plinko/toast', trigger: 'Small win (below 2x). The game does not stop.',
+    spec: [['pop in: opacity, scale', '0, scale(0.8)', '1, scale(1.06) then 1', 'first 20 % of --motion-toast-float-duration', '--easing-standard-decelerate', 'none'], ['rise: translateY', '-100 %', '-100 % - 96 px', '--motion-toast-float-duration (1.8 s)', '--easing-standard-decelerate', 'none'], ['sway: translate, rotate', '-5 px, -2deg', '+5 px, +2deg', 'half of --motion-toast-float-duration per side', '--motion-pulse-easing (a smooth sine)', 'alternate, a second animation'], ['fade', '1', '0', 'from 55 % to 100 %', 'same', 'none'], ['coin puff (5 coins)', 'bin', 'arc up and fall', 'about 1.3 s', 'same as the coin burst', 'once']],
+    reduced: 'Fades in, stays, fades out (1.6 s). No movement, no coins.', sync: 'Sound win-small, haptic 20 ms. The prize flies into the winnings tab after 700 ms. The ball goes back to the chute after 1.5 s.', code: `.toast { animation: plk-toast-float var(--motion-toast-float-duration) var(--easing-standard-decelerate) both,\n  plk-toast-sway calc(var(--motion-toast-float-duration) / 2) var(--motion-pulse-easing) infinite alternate; }`, demo: 'toast' },
+  { id: 'buildup-big', group: 'Results', name: 'Build-up before a big win', component: 'plinko/frame State=Flare', trigger: 'Big win: after the ball lands, before the win sheet',
+    spec: [['bulbs transform, brightness', 'scale(1), 1', 'scale(1.45), 1.9 then scale(1.2), 1.5', '--motion-win-buildup-big-duration (0.5 s)', '--easing-standard', 'once, holds until the sheet closes'], ['bulb glow', 'Glow/Bulb pink, Glow/Bulb gold', 'Glow/Bulb pink flare, Glow/Bulb gold flare', 'same', 'same', 'none'], ['running dark gap (opacity)', 'all lit', 'every 4th bulb at 0.2 in turn', '--motion-bulb-chase-duration / 2 (0.1 s) per step', 'steps(1)', 'infinite until the card closes: the drop chase inverted, twice as fast']],
+    reduced: 'Bulbs brighten without scaling; 150 ms.', sync: 'Then the win sheet: sound win-big, haptic 30-60-30.', code: `await board.buildUp('big');   // adds .frame.is-flare, resolves after --motion-win-buildup-big-duration`, demo: 'flare' },
+  { id: 'buildup-mega', group: 'Results', name: 'Build-up before a mega win', component: 'plinko/frame State=Celebrate', trigger: 'Mega win: after the ball lands, before the takeover',
+    spec: [['frame and board outline', 'Plinko/frame/neon', 'Plinko/bulb/gold-core', '--motion-win-buildup-duration (0.8 s)', '--easing-standard', 'none'], ['frame glow', 'Glow/Frame', 'Glow/Frame gold', 'same', 'same', 'none'], ['every bulb', 'pink and gold', 'gold, scale(1.45), brightness 1.9, then scale(1.2)', 'same', 'same', 'Glow/Bulb gold flare'], ['running dark gap (opacity)', 'all lit', 'every 4th bulb at 0.2 in turn', '--motion-bulb-chase-duration / 2 (0.1 s) per step', 'steps(1)', 'infinite until the takeover closes']],
+    reduced: 'The frame turns gold without the bulb flare; 150 ms.', sync: 'Haptic bin-land at the start; then the takeover: sound win-mega, haptic 40-60-40-60-120.', code: `await board.buildUp('mega');  // adds .frame.is-celebrate, resolves after --motion-win-buildup-duration`, demo: 'celebrate' },
+  { id: 'sheet', group: 'Results', name: 'Big win sheet', component: 'plinko/win-sheet', trigger: 'Big win (2x or more, inner bin)',
+    spec: [['transform', 'translateY(100%)', 'translateY(0)', '--motion-sheet-enter-duration (400 ms)', '--motion-sheet-enter-easing', 'none'], ['scrim opacity', '0', '1', '--motion-fade-duration', '--motion-fade-easing', 'none'], ['exit transform', '0', 'translateY(100%)', '--motion-sheet-exit-duration (200 ms)', '--motion-sheet-exit-easing', 'none']],
+    reduced: 'Fades, 150 ms.', sync: 'Sound win-big (ambient ducks 2 s), haptic 30-60-30; reward-collect at 0.9 s.', code: `.anim-sheet-enter { animation: plk-sheet-enter var(--motion-sheet-enter-duration) var(--motion-sheet-enter-easing) both; }`, demo: 'sheet' },
+  { id: 'count-up', group: 'Results', name: 'Amount count-up', component: 'win sheet amount', trigger: 'Win sheet opens',
+    spec: [['number', '0', 'prize amount', '700 ms', 'ease-out cubic: 1 - (1 - k)^3', '12 ticks']],
+    reduced: 'Final number at once.', sync: 'Sound coin-tick per step (pitch rises).', code: `const v = Math.round(to * (1 - Math.pow(1 - k, 3)));`, demo: 'count' },
+  { id: 'modal', group: 'Results', name: 'Modal enter and exit', component: 'plinko/popup, welcome card, win takeover', trigger: 'Popup open, welcome card, mega win',
+    spec: [['opacity, transform', '0, scale(0.7)', '1, scale(1)', '--motion-modal-enter-duration (500 ms)', '--motion-modal-enter-easing (overshoot)', 'none'], ['exit', '1, scale(1)', '0, scale(0.92)', '--motion-modal-exit-duration (200 ms)', '--motion-modal-exit-easing', 'none'], ['reward tiles', '0, scale(0.7)', '1, scale(1)', 'modal-enter', 'overshoot', '150 ms apart']],
+    reduced: 'Fades, 150 ms.', sync: 'Popup: sound popup-open. Card: ui-open. Mega: win-mega (ambient ducks 4 s), haptic 40-60-40-60-120.', code: `.anim-modal-enter { animation: plk-modal-enter var(--motion-modal-enter-duration) var(--motion-modal-enter-easing) both; }`, demo: 'modal' },
+  { id: 'rays', group: 'Results', name: 'Reward rays and float', component: 'plinko/reward-art Rays=On', trigger: 'Big and mega wins',
+    spec: [['rays transform', 'rotate(0)', 'rotate(30deg)', '2.8 s', 'linear', 'infinite; 12 rays, so 30 deg is a seamless loop'], ['icon transform', 'translateY(0)', 'translateY(-6%)', '--motion-float-duration (2.8 s)', '--motion-float-easing', 'infinite, in step with the rays']],
+    reduced: 'Rays stand still, icon does not float.', sync: 'None.', code: `.reward-art__rays { animation: plk-rays 2.8s linear infinite; }\n.reward-art .reward-icon { animation: plk-float var(--motion-float-duration) var(--motion-float-easing) infinite; }`, demo: 'rays' },
+  { id: 'fx', group: 'Results', name: 'Coin burst and confetti', component: 'plinko/fx', trigger: 'Big win: coins. Mega win: coins and confetti. Plays once.',
+    spec: [['coins (18; 5 for a small win)', 'reward centre', 'arc out and fall', '1.2 to 1.64 s', 'x = x0 + vx t; y = y0 + vy t + 1400 t^2 / 2', '12 ms apart; fade over the last 30 %'], ['confetti (40)', 'above the screen', 'fall and sway', '2.2 to 2.8 s', 'vy 220 to 420 px/s; sway 12 to 30 px; 3D flip cos(spin t)', '-']],
+    reduced: 'Hidden.', sync: 'Starts with win-big or win-mega.', code: `const fx = createFx(canvas); fx.play('mega', x, y);  // fx.js`, demo: 'fx' },
+  { id: 'winnings', group: 'Results', name: 'Prize flies into the winnings pool', component: 'plinko/winnings-tab', trigger: 'After every win: small wins after the toast (700 ms), big and mega wins when the card closes',
+    spec: [['tab (first win)', 'hidden', 'opacity 1, scale 1', '--motion-modal-enter-duration', '--motion-modal-enter-easing (overshoot)', 'once'], ['"+N" opacity, transform', '0, translateY(6px) scale(0.6)', '1, scale(1.15), then rise and fade', '900 ms', '--easing-emphasized-decelerate', 'none'], ['total text', 'old total', 'new total', 'instant', '-', 'aria-live polite']],
+    reduced: '+N fades only.', sync: 'Sound reward-collect (big and mega).', code: `.winnings-tab.is-gained .ticket-tab__gain { animation: plk-gain 900ms var(--easing-emphasized-decelerate) both; }`, demo: 'winnings' },
+  { id: 'summary', group: 'Results', name: 'Session summary', component: 'plinko/session-summary', trigger: 'Close or Back to lobby with prizes in the pool; tap on the winnings tab',
+    spec: [['summary transform', 'translateY(100%)', '0', '--motion-sheet-enter-duration', '--motion-sheet-enter-easing', 'none']],
+    reduced: 'Fades.', sync: 'Sound ui-open. Back to lobby closes the game with ui-close.', code: `.anim-sheet-enter { animation: plk-sheet-enter var(--motion-sheet-enter-duration) var(--motion-sheet-enter-easing) both; }`, demo: 'summary' },
+  { id: 'drawer', group: 'Results', name: 'Drawer', component: 'plinko/drawer', trigger: 'Rules and odds',
+    spec: [['transform', 'translateY(100%)', '0', '--motion-sheet-enter-duration', '--motion-sheet-enter-easing', 'none'], ['exit', '0', 'translateY(100%)', '--motion-sheet-exit-duration', '--motion-sheet-exit-easing', 'none']],
+    reduced: 'Fades.', sync: 'Sound ui-open and ui-close.', code: `.anim-sheet-enter …  .anim-sheet-exit …`, demo: 'sheet' },
+  { id: 'timer', group: 'Results', name: 'Free ticket timer', component: 'plinko/timer', trigger: 'No tickets state',
+    spec: [['ring stroke-dashoffset', 'time left / 24 h', 'next second', '1 s', 'linear', 'every second'], ['Ready', 'Counting', 'full ring, gold outline, then +1 on the ticket tab', '900 ms', '-', '-']],
+    reduced: 'Same (no movement beyond the ring).', sync: 'Sound timer-ready then ticket-gain.', code: `ring.style.strokeDashoffset = C * (left / total);`, demo: 'timer' },
+];
+
+/* The drop as one timeline: what you see, hear and feel. Times in seconds from the Drop tap (typical drop). */
+export const CHOREOGRAPHY = [
+  { t: 0.00, visual: 'Drop pressed: button scales 0.97, then Loading. Selector disabled. Bulbs start running.', sound: 'ui-tap', haptic: 'ball-release 15 ms' },
+  { t: 0.02, visual: 'Chute lights up, ball leaves it.', sound: 'ball-release', haptic: '' },
+  { t: 0.13, visual: 'Row 1 contact: peg flashes gold.', sound: 'peg-hit (row 1, lowest pitch)', haptic: '' },
+  { t: 0.33, visual: 'Rows 2 to 6 (one every 0.22 s): arc, bounce, trail bends after each bounce.', sound: 'peg-hit, pitch rises each row', haptic: '' },
+  { t: 1.22, visual: 'Row 6 contact: slow motion (0.5x). Reachable bins glow.', sound: 'riser starts', haptic: '' },
+  { t: 1.62, visual: 'Rows 7 (1.62 s) and 8 (2.05 s) in slow motion.', sound: 'peg-hit (rows 7, 8)', haptic: '5 ms per contact' },
+  { t: 2.52, visual: 'Ball lands, 2 small settle hops. Bin drops 3 px, glows, chance bar lights. Bulbs back to twinkle.', sound: 'riser cut, bin-land (+ chime by heat)', haptic: 'bin-land 30 ms' },
+  { t: 2.62, visual: 'Small: toast pops in, floats up with a soft sway and fades. Big: bulbs flare for 0.5 s, then the sheet slides up, coins burst, amount counts up. Mega: the frame turns gold and every bulb flares for 0.8 s, then the takeover, rays, confetti, tiles one by one.', sound: 'win-small | win-big | win-mega (ambient ducks)', haptic: '20 | 30-60-30 | 40-60-40-60-120' },
+  { t: 3.50, visual: 'Prize added to My Rewards. Drop again is ready.', sound: 'reward-collect (big)', haptic: '' },
+];

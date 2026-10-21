@@ -1,0 +1,140 @@
+/* Plinko game: compositions built from the plinko-ui library (Figma sections marked "no-code"):
+   popup, board, controls panel, win sheet, win takeover, welcome card, drawer, no tickets.
+   Only library tokens are used. */
+
+html, body { height: 100%; overflow: hidden; }
+body { background: var(--background-default); }
+
+/* ---------- Host page (screenshot of the lobby, presentation only) ---------- */
+.host { position: fixed; inset: 0; overflow: hidden; background: var(--background-default); }
+.host__shot { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+/* Entry widget: reopens the game after it was closed (hero badge style) */
+
+/* ---------- Game layer ---------- */
+.game { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 8px; }
+.game[hidden] { display: none; }
+.game__scrim { position: absolute; inset: 0; background: var(--plinko-popup-scrim); backdrop-filter: blur(var(--blur-low)); -webkit-backdrop-filter: blur(var(--blur-low)); animation: plk-fade-in var(--motion-fade-duration) both; }
+.game.is-closing .game__scrim { animation: plk-fade-out var(--motion-modal-exit-duration) both; }
+.fx-layer { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
+
+/* Popup (plinko/popup) */
+.popup { position: relative; z-index: 1; display: flex; flex-direction: column; width: 100%; max-width: 414px; max-height: 100%; border-radius: var(--radius-lg); background: var(--plinko-popup-surface); box-shadow: var(--shadow-popover); overflow: hidden; }
+.popup.anim-modal-enter { transform-origin: 50% 60%; }
+.popup__header { flex: none; padding: 0 var(--spacing-sm); }
+.popup__body { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; gap: var(--spacing-sm); padding: 0 var(--spacing-sm); }
+.popup__footer { flex: none; padding: var(--spacing-sm); }
+.popup__body > .prize-strip { flex: none; margin: 0 calc(-1 * var(--spacing-sm)); }
+.card .prize-strip { margin: 0; }   /* edge to edge of the welcome card, as in Figma */
+
+/* Board (plinko/board) */
+.board { position: relative; flex: 0 1 500px; min-height: 360px; display: flex; flex-direction: column; padding-top: 30px; margin: 0 -4px; }
+.board__tab { position: absolute; top: 0; left: 0; right: 0; z-index: 3; }   /* placement only; layout comes from .board-tabs */
+
+
+/* Session summary (plinko/session-summary): the exit of the loop */
+.summary { position: relative; width: 100%; display: flex; flex-direction: column; gap: var(--spacing-md); padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm); border-radius: 24px 24px var(--radius-lg) var(--radius-lg); background: var(--plinko-popup-surface); box-shadow: var(--shadow-sheet); }
+.summary__head { display: flex; flex-direction: column; gap: var(--spacing-2xs); }
+.summary__title { font-size: var(--font-size-h3); font-weight: var(--weight-bold-700); line-height: 1.25; text-transform: uppercase; letter-spacing: 0.02em; }
+.summary__sub { font-size: var(--font-size-large); font-weight: var(--weight-medium-500); color: var(--on-surface-subtle); }
+.summary__list { display: flex; flex-direction: column; gap: var(--spacing-2xs); }
+.summary-row { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-xs) var(--spacing-xs); border-radius: var(--radius-md); background: var(--plinko-list-row-surface); }
+.summary-row .reward-icon { width: 48px; height: 48px; }
+.summary-row__name { flex: 1; font-size: var(--font-size-large); font-weight: var(--weight-bold-700); line-height: 1.35; }
+.summary-row__name small { display: block; font-size: var(--font-size-medium); font-weight: var(--weight-medium-500); color: var(--on-surface-muted); }
+.summary-row__amount { font-size: var(--font-size-h4); font-weight: var(--weight-bold-700); color: var(--on-surface-accent); font-variant-numeric: tabular-nums; }
+.summary__next { display: flex; align-items: center; justify-content: center; gap: var(--spacing-xs); font-size: var(--font-size-paragraph); font-weight: var(--weight-medium-500); color: var(--on-surface-subtle); }
+.summary__next b { color: var(--on-surface-default); font-variant-numeric: tabular-nums; }
+.summary__actions { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-xs); }
+
+.board .frame { flex: 1; min-height: 0; display: flex; }
+.board .frame__board { flex: 1; min-height: 0; }
+.playfield { position: absolute; inset: 0; }
+.playfield canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.playfield .chance-strip, .playfield .bin-row { position: absolute; z-index: 1; }
+.playfield .chance-strip { z-index: 0; }
+.board.is-dimmed .bin { opacity: 0.4; }
+.board.is-dimmed canvas { opacity: 0.85; }
+
+/* Controls panel (plinko/controls) */
+.controls { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.controls__empty { display: none; flex-direction: column; gap: var(--spacing-xs); }
+.controls[data-state="empty"] .controls__ready { display: none; }
+.controls[data-state="empty"] .controls__empty { display: flex; }
+.controls__ready { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.controls__empty .link { align-self: center; }
+
+/* Overlay layer inside the popup (sheet, cards, drawer) */
+.layer { position: absolute; inset: 0; z-index: 20; display: flex; justify-content: center; border-radius: inherit; }
+.layer[hidden] { display: none; }
+.layer__scrim { position: absolute; inset: 0; border-radius: inherit; }
+.layer--center { align-items: center; padding: var(--spacing-sm); }
+.layer--bottom { align-items: flex-end; }
+
+/* Win sheet (plinko/win-sheet) */
+.win-sheet { position: relative; width: 100%; display: flex; flex-direction: column; align-items: stretch; gap: var(--spacing-md); padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm); border-radius: 24px 24px var(--radius-lg) var(--radius-lg); background: var(--plinko-popup-surface); box-shadow: var(--shadow-sheet); }
+.win-sheet__row { display: flex; align-items: center; gap: var(--spacing-sm); }
+.win-sheet__text { display: flex; flex-direction: column; gap: 2px; }
+.win-sheet__title { font-size: var(--font-size-h3); font-weight: var(--weight-bold-700); text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.25; }
+.win-sheet__actions, .takeover__actions { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-xs); width: 100%; }
+.win-sheet__amount { display: flex; align-items: baseline; gap: var(--spacing-2xs); color: var(--plinko-reward-amount); font-weight: var(--weight-bold-700); text-transform: uppercase; letter-spacing: 0.02em; font-size: var(--font-size-large); }
+.win-sheet__amount b { font-size: var(--font-size-h2); letter-spacing: 0; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.win-sheet__added { margin-left: auto; text-align: right; font-size: var(--font-size-medium); font-weight: var(--weight-medium-500); color: var(--on-surface-muted); line-height: 1.45; }
+.win-sheet .link, .takeover .link { align-self: center; }
+
+/* Win takeover (plinko/win-takeover) */
+.takeover { position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-sm); padding: 0 var(--spacing-lg); text-align: center; background: radial-gradient(80% 60% at 50% 42%, var(--plinko-takeover-top), var(--plinko-takeover-bottom) 75%); }
+.takeover__close { position: absolute; top: 44px; right: var(--spacing-sm); }
+.takeover__content { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; max-width: 360px; }
+.takeover__title { font-size: var(--font-size-h1); font-weight: var(--weight-bold-700); text-transform: uppercase; line-height: 1.15; filter: drop-shadow(0 0 24px var(--plinko-frame-glow)); }
+.takeover__name { font-size: var(--font-size-h3); font-weight: var(--weight-bold-700); line-height: 1.25; text-transform: uppercase; color: var(--plinko-reward-amount); letter-spacing: 0.02em; }
+.takeover__tiles { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: var(--spacing-xs); width: 100%; }
+.takeover__tiles .reward-tile { animation: plk-modal-enter var(--motion-modal-enter-duration) var(--motion-modal-enter-easing) both; }
+.takeover__tiles .reward-tile:nth-child(2) { animation-delay: 150ms; } .takeover__tiles .reward-tile:nth-child(3) { animation-delay: 300ms; }
+.takeover__added { position: absolute; left: 0; right: 0; bottom: 24px; text-align: center; font-size: var(--font-size-medium); font-weight: var(--weight-medium-500); color: var(--on-surface-muted); }
+.takeover .reward-art { margin: 0; }
+
+/* Welcome card (plinko/welcome-card) */
+.card { position: relative; width: 100%; max-width: 350px; display: flex; flex-direction: column; align-items: stretch; gap: var(--spacing-md); padding: 48px 0 var(--spacing-sm); border-radius: var(--radius-lg); background: var(--plinko-popup-surface); box-shadow: var(--shadow-popover); text-align: center; }
+.card__art { position: absolute; left: 50%; top: -40px; width: 80px; height: 80px; margin-left: -40px; animation: plk-float var(--motion-float-duration) var(--motion-float-easing) infinite; }
+.card__head, .card__steps, .card__actions { display: flex; flex-direction: column; padding: 0 var(--spacing-md); }
+.card__head { gap: var(--spacing-2xs); align-items: center; }
+.card__steps { gap: var(--spacing-2xs); }
+.card__actions { gap: var(--spacing-2xs); align-items: center; }
+.card__actions .button { width: 100%; }
+.card__close { position: absolute; top: 4px; right: 4px; }
+.card__title { font-size: var(--font-size-h2); font-weight: var(--weight-bold-700); line-height: 1.2; text-transform: uppercase; letter-spacing: 0.02em; }
+.card__sub { color: var(--on-surface-subtle); font-size: var(--font-size-large); font-weight: var(--weight-medium-500); }
+
+
+.card__hint { display: flex; align-items: center; justify-content: center; gap: var(--spacing-2xs); font-size: var(--font-size-medium); font-weight: var(--weight-medium-500); color: var(--on-surface-muted); }
+
+/* Drawer (plinko/drawer) */
+.drawer { position: relative; width: 100%; height: min(708px, calc(100% - 64px)); display: flex; flex-direction: column; padding-top: var(--spacing-xs); border-radius: 24px 24px var(--radius-lg) var(--radius-lg); background: var(--plinko-popup-surface); box-shadow: var(--shadow-sheet); }
+.drawer__grab { flex: none; width: 40px; height: 4px; border-radius: var(--radius-xs); background: var(--plinko-drawer-grabber); margin: 0 auto; }
+.drawer__head { flex: none; display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 0 var(--spacing-2xs) 0 var(--spacing-md); }
+.drawer__title { font-size: var(--font-size-h3); font-weight: var(--weight-bold-700); line-height: 1.25; text-transform: uppercase; letter-spacing: 0.02em; }
+.drawer .tab-bar { flex: none; margin: var(--spacing-2xs) var(--spacing-md) var(--spacing-xs); }
+.drawer__body { flex: 1; overflow: auto; padding: 0 var(--spacing-md) var(--spacing-md); display: flex; flex-direction: column; overscroll-behavior: contain; }
+.drawer__panel { display: flex; flex-direction: column; gap: var(--spacing-md); }
+.drawer__panel .steps { display: flex; flex-direction: column; gap: var(--spacing-2xs); }
+#panel-chances, #panel-rules { padding-top: var(--spacing-sm); }
+.drawer__panel[hidden] { display: none; }
+/* Rules tab as in Figma: 16 px between rules, 20 px to Settings, 8 px under the label, 4 px between setting rows */
+.drawer__panel--rules { gap: var(--spacing-2xs); }
+.drawer__panel--rules .rules { margin-bottom: var(--spacing-md); }
+.drawer__panel--rules .drawer__label { margin-bottom: var(--spacing-2xs); }
+.drawer__label { margin-bottom: calc(-1 * var(--spacing-xs)); font-size: var(--font-size-small); font-weight: var(--weight-bold-700); letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-surface-muted); }
+
+/* Demo panel (outside the game: tools for reviewers) */
+.demo { position: fixed; z-index: 60; left: 2px; bottom: 2px; font-size: var(--font-size-medium); }
+.demo__toggle { min-height: 26px; padding: 0 10px; font-size: var(--font-size-small); opacity: 0.8; border-radius: var(--radius-round); background: var(--surface-container-default); color: var(--on-surface-subtle); box-shadow: inset 0 0 0 1px var(--outline-default); font-weight: var(--weight-bold-700); }
+.demo__panel { position: absolute; left: 0; bottom: 32px; width: 260px; padding: var(--spacing-sm); border-radius: var(--radius-md); background: var(--surface-container-lowest); box-shadow: inset 0 0 0 1px var(--outline-default), var(--shadow-popover); display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.demo__panel[hidden] { display: none; }
+.demo__panel h2 { font-size: var(--font-size-paragraph); text-transform: uppercase; letter-spacing: 0.12em; color: var(--on-surface-muted); }
+.demo__row { display: flex; flex-wrap: wrap; gap: 6px; }
+.demo__row button { min-height: 32px; padding: 0 10px; border-radius: var(--radius-round); background: var(--surface-container-default); font-weight: var(--weight-medium-500); }
+.demo__row button[aria-pressed="true"] { background: var(--surface-inverse); color: var(--on-surface-inverse); }
+.demo__panel p { color: var(--on-surface-muted); line-height: 1.4; }
+.debug { position: fixed; z-index: 61; left: 8px; top: 140px; max-width: 220px; max-height: 50vh; overflow: hidden; padding: 6px 8px; border-radius: var(--radius-sm); background: var(--black-alpha-80); font: 11px/1.4 ui-monospace, monospace; color: var(--green-300); pointer-events: none; }
+.debug[hidden] { display: none; }

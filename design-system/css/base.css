@@ -1,0 +1,26 @@
+/* Plinko UI base layer: font, reset, focus ring, helpers.
+   Load order: tokens.css, type.css, base.css, components.css, motion.css */
+
+@font-face { font-family: "Ubuntu"; src: url("../assets/fonts/ubuntu-light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "Ubuntu"; src: url("../assets/fonts/ubuntu-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Ubuntu"; src: url("../assets/fonts/ubuntu-medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Ubuntu"; src: url("../assets/fonts/ubuntu-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--background-default); color: var(--on-surface-default); font-family: var(--font-body), system-ui, sans-serif; font-size: var(--font-size-large); line-height: 1.35; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:disabled, [aria-disabled="true"] { cursor: default; }
+table { border-collapse: collapse; }
+
+/* One focus ring for every control (Figma property "Focus") */
+:focus-visible { outline: 2px solid var(--buttons-focus-ring); outline-offset: 2px; }
+:focus:not(:focus-visible) { outline: none; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.tabular { font-variant-numeric: tabular-nums; }
+.gold-text { background: var(--gradient-title-gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.pink-text { background: var(--gradient-title-pink); -webkit-background-clip: text; background-clip: text; color: transparent; }

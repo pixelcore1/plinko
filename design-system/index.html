@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plinko UI design system</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/type.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="docs/docs.css">
+</head>
+<body>
+<button class="menu-btn" id="menu-btn" type="button" aria-controls="docs-nav" aria-expanded="false">Menu</button>
+<div class="docs">
+<nav class="docs-nav" id="docs-nav" aria-label="Documentation">
+  <a class="docs-nav__brand" href="#overview"><b>Plinko UI</b><span>Design system 0.1.0</span></a>
+  <h3>Getting started</h3>
+  <a href="#overview">Overview</a>
+  <a href="#principles">Principles</a>
+  <a href="#use">Using the library</a>
+  <h3>Foundations</h3>
+  <a href="#colour">Colour</a>
+  <a href="#typography">Typography</a>
+  <a href="#space">Spacing, radius, sizes</a>
+  <a href="#effects">Effects and gradients</a>
+  <a href="#icons">Icons and imagery</a>
+  <h3>Experience</h3>
+  <a href="#motion">Motion</a>
+  <a href="#choreography">Drop choreography</a>
+  <a href="#sound">Sound</a>
+  <a href="#haptics">Haptics</a>
+  <a href="#physics">Physics</a>
+  <a href="#prizes">Prizes and odds</a>
+  <h3>Components</h3>
+  <div id="nav-components"></div>
+  <h3>Patterns</h3>
+  <a href="#patterns">Screens built from the library</a>
+  <h3>Resources</h3>
+  <a href="#resources">Files, credits, known issues</a>
+  <a href="../prototype/">Open the prototype</a>
+</nav>
+
+<main class="docs-main" id="main">
+
+<section id="overview">
+  <h1>Plinko UI</h1>
+  <p class="lead">The design system behind the Plinko reward minigame: tokens, components, motion, sound, haptics, physics and prize maths. One source for Figma and code.</p>
+  <div class="meta">
+    <span class="chip">Version 0.1.0</span><span class="chip">Mobile first: 360 to 430 px, desktop tokens from 1024 px</span><span class="chip">Dark theme</span><span class="chip">WCAG 2.1 AA</span>
+  </div>
+  <p>Figma file: <a href="https://www.figma.com/design/EXcHZLG3O0BS12H0wqYm7i/B2Spin-Senior-Product-Designer-Test-Task">B2Spin Senior Product Designer Test Task</a> (pages Foundation, Components, Assets, Plinko, Prototype notes). Every Figma variable has a CSS name (code syntax), and the CSS uses exactly these names. When a value changes in Figma, the export script rebuilds <code>css/tokens.css</code>.</p>
+  <div class="grid" style="--min:200px;margin-top:16px" id="stats"></div>
+</section>
+
+<section id="principles">
+  <h2>Principles</h2>
+  <h3>Honest by design</h3>
+  <p>The result is decided before the ball moves, with the natural odds of a real board. The ball then shows how it gets there. Risk changes the size of the prizes, never the chances, and the board shows this with a chance strip that stays the same at every level. Every drop wins something. There is no buy button, no autoplay and no fake near miss.</p>
+  <h3>Celebration scales with the win</h3>
+  <p>A small win is a toast and the game keeps going. A big win is a short sheet with a coin burst. Only a mega win (1 in 128) takes over the screen. This keeps the loop fast and saves the peak for the rare moment people remember. Every prize then flies into the winnings pool on the board, so the player always sees the total of the session.</p>
+  <h3>Feels physical</h3>
+  <p>Neon frame with bulbs, real gravity, peg flashes, a pitch that rises row by row, slow motion over the last rows. Sound and vibration follow the same events as the picture.</p>
+  <h3>Works for everyone</h3>
+  <p>Text contrast 4.5:1 or more, tap targets 44 px or more, keyboard support, screen reader labels. With reduced motion the game is calm but complete. Sound and vibration are optional: the game never needs them to make sense.</p>
+</section>
+
+<section id="use">
+  <h2>Using the library</h2>
+  <p>No build step and no dependencies. Link the CSS files in this order and import the JS modules you need.</p>
+<pre>&lt;link rel="stylesheet" href="design-system/css/tokens.css"&gt;      &lt;!-- variables from Figma (generated) --&gt;
+&lt;link rel="stylesheet" href="design-system/css/type.css"&gt;        &lt;!-- text styles from Figma (generated) --&gt;
+&lt;link rel="stylesheet" href="design-system/css/base.css"&gt;        &lt;!-- font, reset, focus ring --&gt;
+&lt;link rel="stylesheet" href="design-system/css/components.css"&gt;  &lt;!-- all components --&gt;
+&lt;link rel="stylesheet" href="design-system/css/motion.css"&gt;      &lt;!-- keyframes, reduced motion --&gt;
+
+import { binsFor, decideOutcome } from './design-system/js/model.js';   // prizes, odds, outcome
+import { buildDrop, sample } from './design-system/js/physics.js';      // drop physics
+import { createSound } from './design-system/js/sound.js';              // sound map + engine
+import { createHaptics } from './design-system/js/haptics.js';          // vibration patterns
+import { createFx } from './design-system/js/fx.js';                    // coin burst, confetti
+import { icon } from './design-system/js/icons.js';                     // SVG icons</pre>
+  <h3>Files</h3>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Path</th><th>What it is</th></tr></thead><tbody>
+    <tr><td><code>css/tokens.css</code></td><td>All Figma variables as CSS custom properties. Modes: Desktop in <code>@media (min-width: 1024px)</code>, Reduced motion in <code>@media (prefers-reduced-motion: reduce)</code> and <code>[data-motion="reduced"]</code>, Bin heat in <code>[data-heat="cold … mega"]</code>. Selectors are <code>:root, :host</code>, so tokens also work in a Shadow DOM.</td></tr>
+    <tr><td><code>css/type.css</code></td><td>The 30 Figma text styles as classes, for example <code>.text-title-h2</code>.</td></tr>
+    <tr><td><code>css/components.css</code></td><td>One block per component. Only tokens, no raw colours.</td></tr>
+    <tr><td><code>js/model.js</code></td><td>Reward model: prizes per risk level, odds, heat, win tiers, expected value, seeded RNG, outcome.</td></tr>
+    <tr><td><code>js/physics.js</code></td><td>Board geometry and path physics.</td></tr>
+    <tr><td><code>js/sound.js</code>, <code>js/haptics.js</code></td><td>Sound map and engine (files and Web Audio synthesis), vibration patterns.</td></tr>
+    <tr><td><code>js/motion.js</code></td><td>The motion catalogue on this page, as data.</td></tr>
+    <tr><td><code>../scripts/</code></td><td><code>export-css.figma.js</code> (read-only Figma export) and <code>build-tokens.py</code> (builds tokens.css and type.css).</td></tr>
+  </tbody></table></div>
+  <h3>Naming: Figma name = CSS class</h3>
+  <p>A Figma variant maps to modifier classes, and a state maps to a pseudo-class or an ARIA attribute.</p>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Figma</th><th>CSS</th></tr></thead><tbody>
+    <tr><td>plinko/button, Variant=Primary, Size=lg</td><td><code>.button.button--primary.button--lg</code></td></tr>
+    <tr><td>State=Hover</td><td><code>:hover</code>, only inside <code>@media (hover: hover)</code></td></tr>
+    <tr><td>State=Pressed</td><td><code>:active</code> or <code>.is-pressed</code></td></tr>
+    <tr><td>State=Disabled</td><td><code>:disabled</code> or <code>.is-disabled</code></td></tr>
+    <tr><td>State=Loading</td><td><code>.is-loading</code> + <code>aria-busy="true"</code></td></tr>
+    <tr><td>Focus (boolean)</td><td><code>:focus-visible</code></td></tr>
+    <tr><td>Selected, Checked</td><td><code>aria-checked</code>, <code>aria-selected</code>, <code>aria-pressed</code> (the attribute is the state)</td></tr>
+    <tr><td>Heat=Hot (Bin heat mode)</td><td><code>data-heat="hot"</code></td></tr>
+  </tbody></table></div>
+  <h3>Embedding over a host page</h3>
+  <p>The game opens as a popup over the casino lobby. For production, mount it in a Shadow DOM root (<code>&lt;plinko-game&gt;</code>): host styles do not leak in, ours do not leak out, and the class names stay as in Figma. The tokens already target <code>:host</code>. Two rules: load <code>@font-face</code> in the main document (fonts do not load from inside a shadow root), and pass theme overrides as custom properties on the host element. The prototype skips the shadow root because its lobby is a placeholder.</p>
+  <h3>Library boundary</h3>
+  <p>The rule lives in Figma: every component goes into the library except sections whose name ends with "no-code" (board, controls panel, popup, win sheet, win takeover, welcome card, drawer, error card). Those are compositions and live in the game code, built from library parts. See <a href="#patterns">Patterns</a>.</p>
+</section>
+
+<section id="colour">
+  <h2>Colour</h2>
+  <p>Three layers. <strong>Primitives</strong> are the palettes, made in my Colour Ramp Tool. <strong>Semantic</strong> roles follow the Material 3 model (surface, on-surface, outline, scrim, action, feedback). <strong>Components</strong> hold the colours of one component or of Plinko only. Aliases always go Components → Semantic → Primitives, and the chain stays alive in CSS: <code>--buttons-primary-default: var(--action-primary-default)</code> → <code>var(--magenta-500)</code>.</p>
+  <h3>Palettes</h3><div id="ramps"></div>
+  <h3>Alpha ramps</h3>
+  <p>Transparent colours come from alpha ramps, never from "a colour at 8 %". In code they are <code>color-mix()</code> of the base colour, so one change to the base updates the ramp.</p>
+  <div id="alpha"></div>
+  <h3>Semantic roles</h3><div class="grid" style="--min:220px" id="semantic"></div>
+  <h3>Bin heat</h3>
+  <p>A bin sets one attribute, <code>data-heat</code>, and its fill, text, outline and sparkle follow (Figma: Bin heat collection with 6 modes). Colour follows the value of the prize: dull slate below the base prize, then yellow, amber and red, and pink for the edge prizes. Small prizes should not look attractive.</p>
+  <div class="stage" id="heat"></div>
+  <h3>Component colours</h3><div class="grid" style="--min:220px" id="component-colours"></div>
+</section>
+
+<section id="typography">
+  <h2>Typography</h2>
+  <p>Ubuntu, the site font of the host product, in 4 weights (300, 400, 500, 700), shipped as WOFF2 in the repo. 30 text styles from Figma are classes in <code>type.css</code>. Sizes come from tokens with a Mobile and a Desktop mode, so one class works on both. Line heights are unitless (115 % in Figma is 1.15). Titles use 2 % tracking and labels 12 %.</p>
+  <div id="type"></div>
+</section>
+
+<section id="space">
+  <h2>Spacing, radius, sizes</h2>
+  <p>8 px grid with 4 px steps. The Tokens collection has a Mobile and a Desktop mode; the Desktop values start at 1024 px. The smallest supported width is 360 px.</p>
+  <h3>Spacing</h3><div id="spacing"></div>
+  <h3>Radius</h3><div class="stage" id="radius"></div>
+  <h3>Icon and tap sizes</h3><div id="sizes"></div>
+</section>
+
+<section id="effects">
+  <h2>Effects and gradients</h2>
+  <p>Figma paint styles become gradient tokens (<code>--gradient-*</code>), and effect styles become shadow tokens (<code>--glow-*</code>, <code>--shadow-*</code>). Background blur styles use <code>--blur-low</code> (8), <code>--blur-medium</code> (16) and <code>--blur-high</code> (32). Buttons have no static glow: only the pulsing Drop button glows, so the one action that matters stands out.</p>
+  <div class="grid" style="--min:180px" id="gradients"></div>
+  <div class="grid" style="--min:180px;margin-top:12px" id="glows"></div>
+</section>
+
+<section id="icons">
+  <h2>Icons and imagery</h2>
+  <p>17 icons on a 24 px grid with a 2 px stroke, in 5 sizes (xs 16, sm 20, md 24, lg 32, xl 48). Reward icons carry two small sparkles. Exported from Figma as SVG in <code>js/icons.js</code>; the stroke uses <code>currentColor</code>.</p>
+  <div class="grid" style="--min:96px" id="icon-grid"></div>
+  <h3>Reward art</h3>
+  <p>Stylised 3D cartoon, satin and soft enamel, one soft highlight, a thin coloured rim light. Generated with ChatGPT from my prompts and style bible, then trimmed and exported (@1x, @2x, @3x, WebP). Sizes in the UI: S 48, M 80, L 160. Images are used only where code can't do the job: the ball, prize art, coins and the error art. Pegs, bins, frame, glows, rays and particles are code, so they stay sharp and react to state.</p>
+  <div class="grid" style="--min:110px" id="images"></div>
+</section>
+
+<section id="motion">
+  <h2>Motion</h2>
+  <p class="lead">Every animation, with what a developer needs to build it: trigger, properties, from and to, duration and easing tokens, delay, reduced motion and the sound and vibration it plays with. Each card has a live demo.</p>
+  <p>Use the buttons on a card: <strong>Replay</strong>, <strong>0.25x</strong> to slow it down, and <strong>Reduced</strong> to see the prefers-reduced-motion version. Durations and easing always come from the Motion tokens. Figma keyframes can't bind variables, so in Figma the motion uses the token values and these tokens exist only in code.</p>
+  <h3>Principles</h3><div id="motion-principles"></div>
+  <h3>Duration tokens</h3><div id="durations"></div>
+  <h3>Easing tokens</h3>
+  <p>The dot on each curve moves with that easing over 1 s. Tap a curve to replay.</p>
+  <div class="grid" style="--min:200px" id="easings"></div>
+  <h3>Micro-interaction tokens</h3>
+  <p>Each interaction has its own pair of tokens, so one interaction can be tuned without touching the others. The Reduced mode changes the values.</p>
+  <div class="tbl-wrap" id="interactions"></div>
+  <h3>Catalogue</h3>
+  <div id="catalogue"></div>
+</section>
+
+<section id="choreography">
+  <h2>Drop choreography</h2>
+  <p>The drop is one timeline with three tracks: what you see, what you hear and what you feel. Times are from a typical drop (the physics gives each drop its own exact times; the order never changes). The pink zone is slow motion.</p>
+  <div class="tl-track" id="tl-track"></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<section id="sound">
+  <h2>Sound</h2>
+  <p class="lead">Sound builds anticipation and rewards the win. The game still works fully with sound off.</p>
+  <ul class="bul">
+    <li>Sound starts after the first tap (browsers block audio before it). The first tap in the game unlocks it.</li>
+    <li>One mute switch in the header (and in Rules and odds) controls everything. The choice is remembered.</li>
+    <li>Tonal and frequent sounds (taps, peg hits, ticks, chimes) are synthesised with Web Audio: they weigh nothing and follow the game (peg pitch rises row by row). Textured key moments (popup open, riser, landing, wins, ambient) are files generated with ElevenLabs.</li>
+    <li>Mix: one master bus at 0.9 into a compressor so peaks never clip; a separate ambient bus that ducks to 25 % under big and mega wins.</li>
+    <li>Peg hits are limited to 4 voices, so fast hits never stack into noise. Small random pitch changes (±2 to 3 %) keep repeats from sounding mechanical.</li>
+  </ul>
+  <p>Press ▶ to hear a sound. Synth recipes are in <code>js/sound.js</code>.</p>
+  <div class="tbl-wrap" id="sound-table"></div>
+  <p>Sound effects generated with ElevenLabs.</p>
+</section>
+
+<section id="haptics">
+  <h2>Haptics</h2>
+  <p class="lead" id="haptics-note"></p>
+  <ul class="bul">
+    <li>Vibration follows the same events as sound, but less often: no vibration on the upper rows, only the last 2.</li>
+    <li>One pattern at a time. A win pattern is never cut by a peg tick.</li>
+    <li>The Vibration switch in Rules and odds turns it off. It is hidden where the device can't vibrate.</li>
+    <li>Native apps would map the same events to iOS UIFeedbackGenerator and Android haptic primitives (columns below).</li>
+  </ul>
+  <p id="haptics-support"></p>
+  <div class="tbl-wrap" id="haptics-table"></div>
+</section>
+
+<section id="physics">
+  <h2>Physics</h2>
+  <p class="lead">The result comes first. Physics only shows how the ball gets there, and it does it honestly.</p>
+  <h3>1. Outcome</h3>
+  <p>When the player taps Drop, the server picks the bin with the natural odds of a fair board (see <a href="#prizes">Prizes and odds</a>) and spends the ticket. The prototype does the same in <code>model.decideOutcome()</code> with a seeded random number generator (mulberry32). Add <code>?seed=42</code> to the prototype URL to replay the same results.</p>
+  <h3>2. Path</h3>
+  <p>A ball that lands in bin k bounced right k times and left 8 − k times. The engine shuffles these 8 moves at random (Fisher-Yates). Every path to bin k is equally likely, which is exactly how a real board reaches that bin. So there is no steering, no magnet and no fake near miss.</p>
+  <div class="formula">path = shuffle([+1 × k, −1 × (8 − k)])<br>x after row r = centre + (sum of the first r moves) × s / 2</div>
+  <h3>3. Contact and flight</h3>
+  <p>At each row the ball touches the top of one peg, a little to the side it will bounce to. Between contacts it flies as a projectile under gravity. The bounce sends it up a little (restitution).</p>
+  <div class="formula">contact = ( peg.x + dir × c ,  peg.y − √(R² − c²) )      R = peg radius + ball radius, c ∈ [3, 6] px<br>x(t) = x₀ + vx t          y(t) = y₀ + vy₀ t + ½ g t²<br>vy₀ = −e × |vy impact|     e ∈ [0.28, 0.42]<br>T = ( −vy₀ + √(vy₀² + 2 g Δy) ) / g          vx = Δx / T</div>
+  <h3>4. Landing and presentation</h3>
+  <p>After row 8 the ball falls into its bin and settles with 2 small hops. The last 2 rows play in slow motion (time scale 0.5, 80 ms ramp) and only the bins the ball can still reach glow. Everything scales with the peg spacing s, so the board works from 360 to 430 px.</p>
+  <h3>Constants</h3><div class="tbl-wrap" id="physics-constants"></div>
+  <h3>Try it</h3>
+  <div class="stage stage--dark" style="align-items:flex-start">
+    <div class="mini"><canvas id="mini" width="600" height="660" aria-label="Physics demo board"></canvas>
+      <div class="mcard__tools" id="mini-tools"></div></div>
+    <div style="flex:1;min-width:240px">
+      <h4 style="margin-top:0">Fairness check</h4>
+      <p>10,000 outcomes from <code>decideOutcome()</code> against the binomial odds (gold lines).</p>
+      <div class="histo" id="histo" style="margin-top:24px"></div>
+      <p style="margin-top:8px" id="histo-note"></p>
+    </div>
+  </div>
+</section>
+
+<section id="prizes">
+  <h2>Prizes and odds</h2>
+  <p class="lead">Every drop wins. Risk changes how the value is spread, not how much the player gets on average.</p>
+  <h3>Odds of each bin</h3>
+  <p>8 rows, 9 bins. At each row a fair ball goes left or right with p = 0.5, so the chance of bin k is binomial.</p>
+  <div class="formula">P(k) = C(8, k) / 2⁸        k = 0 … 8<br>edge → centre: 1/256 (0.39 %), 8/256 (3.13 %), 28/256 (10.94 %), 56/256 (21.88 %), 70/256 (27.34 %)</div>
+  <h3>Value of a bin</h3>
+  <p>Prizes are built on today's prize, the base unit (1x = 10 Free Spins = 2K GC value). Each bin has a multiplier m. The bin shows the amount, never the multiplier, because "×0.2" reads as a loss.</p>
+  <div class="formula">prize(k) = m(k) × base prize        (for example 1.5 × 10 FS = 15 FS)<br>named prizes: Gift box = 12x, Treasure chest = 30x, 8K GC = 4x (collectable = 1x, rare = 3x for planning)</div>
+  <h3>Average per drop</h3>
+  <div class="formula">EV = Σ P(k) × m(k)  ≈ 1.0x at every risk level  (≈ 10 FS, 2K GC value)</div>
+  <div id="ev"></div>
+  <h3>Win tiers</h3>
+  <div class="formula">mega = edge bin (1 in 128)      big = m ≥ 2 in an inner bin (1 in 16 on Medium and High)      small = everything else</div>
+  <p>The tier sets the size of the celebration (toast, sheet, takeover), not the bin position.</p>
+  <h3>Prize tables</h3><div id="prize-tables"></div>
+  <div class="callout"><p>Placeholders for B2Spin: the value of 1 Free Spin (here 200 GC), the ticket rate (1 ticket per 50K GC played) and the prize-of-the-day calendar. The prize list is regional configuration. The prototype has no Sweeps Coins and no discounts.</p></div>
+</section>
+
+<section id="components">
+  <h2>Components</h2>
+  <p>Library components, from small to large, as on the Figma Components page. Each one shows its states live, the class names, the tokens it uses and its accessibility rules. Compositions (sections marked "no-code" in Figma) are in <a href="#patterns">Patterns</a>.</p>
+  <div id="component-list"></div>
+</section>
+
+<section id="patterns">
+  <h2>Patterns: screens built from the library</h2>
+  <p>These are the "no-code" sections in Figma. They live in <code>prototype/</code>, built only from library parts and tokens. <a href="../prototype/">Open the prototype</a> to see them working.</p>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Pattern</th><th>Built from</th><th>Behaviour</th></tr></thead><tbody>
+    <tr><td>Popup</td><td>popup-header, prize-strip, board, controls</td><td>role="dialog", aria-modal. Opens with modal-enter over a blurred scrim. Esc closes.</td></tr>
+    <tr><td>Board</td><td>frame, bulbs, chute, peg field (canvas), chance strip, bin row, ticket tab</td><td>States Ready, Dropping, Landed, Dimmed. Canvas for pegs and ball, DOM for the rest.</td></tr>
+    <tr><td>Controls panel</td><td>risk-selector, button (Primary L, two lines), footer-link; timer, earn-line, link</td><td>Ready: Drop pulses. Dropping: selector disabled, Drop loading. No tickets: timer replaces the selector, no buy button.</td></tr>
+    <tr><td>Welcome card</td><td>scrim, list-row × 3, prize-strip (gift), button, checkbox-row</td><td>First open only, skippable, "Don't show this again", same content in Rules and odds.</td></tr>
+    <tr><td>Win toast / sheet / takeover</td><td>toast; reward-art, button, link; reward-art L, reward-tile, fx</td><td>Size follows the win tier. "Drop again" is primary when tickets remain; with 0 tickets it becomes "Continue" and leads to the timer.</td></tr>
+    <tr><td>Winnings pool and session summary</td><td>board-tabs, winnings-tab, summary-row, button, link</td><td>The pool appears after the first win. Leaving with prizes opens the summary (Keep playing / Back to lobby). Back to lobby closes the game.</td></tr>
+    <tr><td>Rules and odds drawer</td><td>tab-bar, list-row, pill-group, odds table, info-note, rules, setting-row, toggle</td><td>Opens on Chances. Pills change the prizes; the chances stay the same.</td></tr>
+    <tr><td>Error card</td><td>status-art, button, link</td><td>Designed in Figma only (section 07). Before the drop: ticket not used. During the drop: prize is safe.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="resources">
+  <h2>Resources</h2>
+  <h3>Credits</h3>
+  <ul class="bul">
+    <li>Design, decisions and art direction: Mykhailo Nahlii.</li>
+    <li>Sound effects generated with ElevenLabs. Synth sounds: Web Audio code.</li>
+    <li>Reward art, ball, coins and error art generated with ChatGPT from my prompts, then checked, trimmed and exported.</li>
+    <li>Font: Ubuntu, Ubuntu Font Licence 1.0.</li>
+    <li>Claude (Anthropic) helped with research, the Figma build, this code and these docs. All decisions are mine.</li>
+  </ul>
+  <h3>Known issues and next steps</h3>
+  <ul class="bul">
+    <li>Figma audit items still open: two off-grid paddings (board 6, toast 6), a few unbound effects (chute, bin highlight, ball trail), CTA gradient stops skip the Semantic layer, sheet shadows use the scrim colour instead of the shadow role, some unused Plinko tokens.</li>
+    <li>Design tokens are exported as CSS. A DTCG 2025.10 JSON export (for Style Dictionary or Terrazzo) is the next step when more products use the system.</li>
+    <li>Production embedding in a Shadow DOM root is described above but not built in the prototype.</li>
+    <li>Sound loudness was set by ear in code; a final mix pass on real devices is needed.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+<script>if (location.protocol === 'file:') document.write('<link rel="stylesheet" href="css/fonts-inline.css"><script src="js/sfx-data.js"><\/script>');</script>
+<script src="docs/docs.bundle.js" defer></script>
+</body>
+</html>
