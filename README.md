@@ -2,7 +2,7 @@
 
 Senior Product Designer test task for B2Spin, by Mykhailo Nahlii.
 
-- **Play the prototype:** https://pixelcore1.github.io/plinko/prototype/ (made for phones: open it on a phone, or in Chrome DevTools device mode as iPhone 16 Pro Max; sound on)
+- **Play the prototype:** https://pixelcore1.github.io/plinko/prototype/ (made for phones: open it on a phone, or in Chrome DevTools device mode as iPhone 16 Pro Max; sound on) I tested it on one real phone only, an iPhone 12 Pro Max, and in a desktop browser. On other devices there may be visual bugs.
 - **Design system docs:** https://pixelcore1.github.io/plinko/design-system/
 - **Figma file:** https://www.figma.com/design/EXcHZLG3O0BS12H0wqYm7i/B2Spin-Senior-Product-Designer-Test-Task
 
@@ -19,6 +19,8 @@ Reading time: about 7 minutes.
 ## How to try it
 
 The prototype is made for phones. The best way to see it is on a phone. On a computer, open Chrome DevTools (F12), turn on the device toolbar (Ctrl+Shift+M) and pick **iPhone 16 Pro Max**, then reload the page. In a normal desktop window the game still works, but it shows the phone layout in the middle of a large screen.
+
+**Tested devices.** I tested the prototype on one real phone only, an iPhone 12 Pro Max, and in a desktop browser. On other devices there may be visual bugs.
 
 The game opens by itself over the homepage. Tap **Let's play**, pick a risk level and tap **Drop**. `prototype/index.html` also opens straight from the folder. Browsers block sound until the first tap, so on that first tap you hear the opening sound.
 
