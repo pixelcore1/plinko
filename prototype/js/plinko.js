@@ -1560,7 +1560,7 @@
   }
   $("#btn-sound").innerHTML = icon("sound-on");
   $("#btn-close").innerHTML = icon("close");
-  $("#prize-strip").innerHTML = `${icon(BASE_PRIZE.icon, "md")}<span>Today's prize:</span><span class="prize-strip__prize">${BASE_PRIZE.amount} ${BASE_PRIZE.name}</span>`;
+  $("#prize-strip").innerHTML = `${icon(BASE_PRIZE.icon, "md")}<span>Today:</span><span class="prize-strip__prize">${BASE_PRIZE.name}</span><span>(average ${BASE_PRIZE.amount} per drop)</span>`;
   $(".ticket-tab__icon").outerHTML = icon("ticket", "sm");
   $(".winnings-tab__icon").outerHTML = icon("gift", "sm");
   $("#btn-rules").innerHTML = `${icon("info", "md", "icon--accent")}<span class="footer-link__text"><span class="footer-link__title">Rules and odds</span><span class="footer-link__desc">Same average at every level: ~${BASE_PRIZE.amount} FS</span></span>${icon("arrow-right", "sm", "icon--muted")}`;
