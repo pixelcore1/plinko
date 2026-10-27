@@ -6,13 +6,14 @@ Senior Product Designer test task for B2Spin, by Mykhailo Nahlii.
 - **Design system docs:** https://pixelcore1.github.io/plinko/design-system/
 - **Figma file:** https://www.figma.com/design/EXcHZLG3O0BS12H0wqYm7i/B2Spin-Senior-Product-Designer-Test-Task
 
-Reading time: about 7 minutes.
+This file is my written walkthrough. Reading time: about 8 minutes.
 
 ## TL;DR
 
 - **The game is honest by design.** The result is picked before the ball moves, with the real odds of an 8-row board. The ball then shows a real path to that bin. Risk changes the size of the prizes, never the chances. A chance strip above the bins stays the same at every level, so players can see this for themselves.
 - **Every ticket is worth the same on average,** about 10 Free Spins (2K GC value), at Low, Medium and High. Every drop wins something. There is no buy button, no autoplay and no fake near miss.
 - **The celebration grows with the win.** A small win is a toast and the game keeps going. A big win (1 in 16 on Medium and High) is a short sheet with a coin burst. A mega win (1 in 128) is a full-screen takeover with confetti. Every prize flies into a winnings pool on the board, and leaving with prizes shows a session summary.
+- **The loop gives reasons to come back, not pressure.** Today's prize changes every day and a free ticket arrives every day. There is no buy button and no autoplay.
 - **Anticipation comes from real events.** Peg sounds rise in pitch row by row. The last 2 rows play in slow motion, and only the bins the ball can still reach start to glow.
 - **One system from Figma to code.** 545 variables and 65 styles with the same names in Figma and CSS, 71 components with states, and a docs site. The docs describe every animation, sound, vibration pattern, the physics and the prize maths, with live demos.
 
@@ -63,7 +64,7 @@ I balanced the edge prizes against real McLuck packs. My first value unit (1x = 
 
 **Win tiers** come from value, not position: mega = edge bin, big = 2x or more in an inner bin, small = the rest. The tier decides the size of the celebration.
 
-## Risk selector
+## Risk selector: the risk/reward UI
 
 Each risk segment has a tiny 9-bar chart of its prizes, so the player can compare the shapes before tapping. When the level changes, every bin spins like a slot reel and stops on its new prize, from the centre out. The colours move with them: dull slate for prizes below the base, then yellow, amber and red, and pink for the edges. I made small prizes look dull on purpose. A bright "2" would promise more than it gives.
 
@@ -88,14 +89,28 @@ On Android each of these moments also has a vibration pattern. iOS Safari has no
 I used the peak-end rule here. A celebration that is the same for every result gets boring fast, and a small win doesn't deserve a modal.
 
 - **Small:** a toast pops up over the bin and floats away with a soft sway. The Drop button is ready again at once.
-- **Big:** the frame bulbs flare for a moment, then a short sheet slides up with the reward art, rays, a count-up and a coin burst.
-- **Mega:** the whole frame turns gold and every bulb flares for 0.6 s, then a full-screen takeover opens with the prize, its contents as tiles, confetti and the longest sound and vibration. The short pause before the reveal is the peak of the session.
+- **Big:** the frame bulbs flare for 0.5 s, then a short sheet slides up with the reward art, rays, a count-up and a coin burst.
+- **Mega:** the whole frame turns gold and every bulb flares for 0.8 s, then a full-screen takeover opens with the prize, its contents as tiles, confetti and the longest sound and vibration. The short pause before the reveal is the peak of the session.
 
 "Drop again" is always the primary action while tickets remain. "Close" is a quiet text link. I used "Close", not "Collect and close", because the prize is already in My Rewards and the old label suggested you could lose it.
 
 Every prize then flies into a **winnings pool**, a second tab next to the tickets on the board ("Won 45 FS · 8K GC"). Players always see what the session gave them. When they leave with prizes, a short **session summary** lists everything, says it is already in My Rewards and when the next free ticket comes, with "Keep playing" or "Back to lobby". "Back to lobby" closes the game and the player is on the homepage again. That closes the loop: nudge to drop again, or a clear exit back to the site.
 
 With 0 tickets the risk selector and Drop are replaced by a countdown to the next free daily ticket, one quiet line about earning tickets in play, "Play games" and "Back to lobby". I didn't add a buy button or a "wager X more" bar. The daily free ticket is the reason to come back, and it is enough.
+
+## How I approached gamification
+
+The brief asks for retention and a reason to log in every day. I built the loop on reasons to come back, not on pressure.
+
+The core loop is short: play games, earn tickets, drop, win, come back tomorrow.
+
+- **Reasons to return.** Today's prize changes every day, and a free ticket arrives every day. With 0 tickets, a countdown shows when the next one comes.
+- **Surprise with honest odds.** Players don't know which bin the ball will hit, and that is the fun. But the odds are real, open in Rules and odds, and the same at every risk level.
+- **Control.** The risk selector lets players choose how a drop feels without changing what it is worth. Some players like steady small wins. Others like to chase the chest.
+- **A clear peak.** Peg sounds rise in pitch, the last rows play in slow motion, and the celebration grows with the win.
+- **Visible progress.** The winnings pool and the session summary show what the session gave, so small wins add up to something.
+
+What I left out is part of the design too: no buy button, no autoplay, no "wager X more" bar, no fake near miss and no losing bins.
 
 ## Onboarding
 
